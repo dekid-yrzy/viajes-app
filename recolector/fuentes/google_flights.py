@@ -62,23 +62,33 @@ def estadia_calendario(viaje: dict) -> int | None:
     return (minimo + maximo) // 2
 
 
+MAX_ERRORES_SEGUIDOS = 3  # señal de bloqueo: no seguir golpeando a Google ese día
+
+
 def calendario(viaje: dict, hoy: date, buscar_fn, generado: str, tasas: dict | None, pausa: float = 2.0) -> dict | None:
     inicio, fin = ventana(viaje)
     estadia = estadia_calendario(viaje)
-    fechas, errores = {}, 0
+    fechas, errores, seguidos, intentadas, primer_error = {}, 0, 0, 0, None
     dia = max(inicio, hoy)
-    while dia <= fin:
+    while dia <= fin and seguidos < MAX_ERRORES_SEGUIDOS:
         salida = dia.isoformat()
         regreso = (dia + timedelta(days=estadia)).isoformat() if estadia is not None else None
+        intentadas += 1
         try:
             obs = observacion(buscar_fn(viaje, salida, regreso), viaje, salida, regreso, generado, tasas)
-        except Exception:  # un bloqueo o cambio de formato en una fecha no debe perder las demás
-            obs, errores = None, errores + 1
+            seguidos = 0
+        except Exception as e:  # un bloqueo o cambio de formato en una fecha no debe perder las demás
+            obs, errores, seguidos = None, errores + 1, seguidos + 1
+            primer_error = primer_error or f"{type(e).__name__}: {e}"
         if obs:
             fechas[salida] = {"regreso": regreso, "monto": obs["precio"]["monto"], "clp": obs["precio"]["clp"], "nivel": obs["nivel"]}
         dia += timedelta(days=1)
         if pausa and dia <= fin:
             time.sleep(pausa)
     if not fechas:
+        if primer_error:
+            raise RuntimeError(f"calendario abortado: {primer_error}")
         return None
-    return {"generado": generado, "estadia_dias": estadia, "fechas": fechas, "errores": errores}
+    abortado = seguidos >= MAX_ERRORES_SEGUIDOS
+    completo = not abortado and errores <= 0.2 * intentadas
+    return {"generado": generado, "estadia_dias": estadia, "completo": completo, "fechas": fechas, "errores": errores}

@@ -62,13 +62,18 @@ def ejecutar(raiz: Path, get_json, ahora: datetime, claves: dict, buscar=None, p
         ruta_cal = raiz / f"data/calendario/{vid}.json"
         cal = _leer_tolerante(ruta_cal, None)
         if buscar and viaje["fechas"]["modo"] != "fija" and calendario_vencido(cal, ahora):
-            nuevo = google_flights.calendario(viaje, hoy, buscar, capturado, tasas, pausa)
+            try:
+                nuevo = google_flights.calendario(viaje, hoy, buscar, capturado, tasas, pausa)
+            except Exception as e:
+                nuevo = None
+                registrar("fast_flights", vid, str(e))
+            else:
+                if not nuevo:
+                    registrar("fast_flights", vid, "calendario sin precios")
             if nuevo:
                 cal = nuevo
                 escribir_json(ruta_cal, cal)
-            else:
-                registrar("fast_flights", vid, "calendario sin precios")
-        ref = fechas_referencia(viaje, guardadas, cal)
+        ref = fechas_referencia(viaje, guardadas, cal, hoy)
         if ref is None:
             registrar("referencia", vid, "sin fechas de referencia")
             return {}
@@ -76,6 +81,12 @@ def ejecutar(raiz: Path, get_json, ahora: datetime, claves: dict, buscar=None, p
         if origen == "calendario":
             guardadas[vid] = {"salida": salida, "regreso": regreso}
             escribir_json(ruta_referencias, guardadas)
+
+        resultado = {"referencia": {"salida": salida, "regreso": regreso, "origen": origen}, "fuente_en_vivo": None}
+        ruta_google = raiz / f"data/historial_google/{vid}.json"
+        anterior = _leer_tolerante(ruta_google, {})
+        if clave_serpapi and anterior.get("actualizado", "")[:10] == capturado[:10] and (anterior.get("salida"), anterior.get("regreso")) == (salida, regreso):
+            return {**resultado, "fuente_en_vivo": "serpapi"}  # ya consultado hoy: no repetir gasto ni scraping
 
         obs, fuente_vivo = None, None
         if clave_serpapi:
@@ -85,11 +96,8 @@ def ejecutar(raiz: Path, get_json, ahora: datetime, claves: dict, buscar=None, p
                 uso["usadas"] += 1  # se cuenta antes de llamar: una llamada fallida también puede gastar cuota
                 try:
                     obs, puntos = serpapi.consultar(viaje, salida, regreso, get_json, clave_serpapi, capturado, tasas)
-                    if puntos:
-                        escribir_json(
-                            raiz / f"data/historial_google/{vid}.json",
-                            {"salida": salida, "regreso": regreso, "actualizado": capturado, "puntos": puntos},
-                        )
+                    if obs:
+                        escribir_json(ruta_google, {"salida": salida, "regreso": regreso, "actualizado": capturado, "puntos": puntos})
                 except Exception as e:
                     traceback.print_exc()
                     registrar("serpapi", vid, str(e))
@@ -103,7 +111,7 @@ def ejecutar(raiz: Path, get_json, ahora: datetime, claves: dict, buscar=None, p
                 registrar("fast_flights", vid, str(e))
         if obs:
             agregar_observacion(raiz, vid, obs)
-        return {"referencia": {"salida": salida, "regreso": regreso, "origen": origen}, "fuente_en_vivo": fuente_vivo}
+        return {**resultado, "fuente_en_vivo": fuente_vivo}
 
     resumen = {}
     for viaje in viajes:

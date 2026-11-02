@@ -42,7 +42,7 @@ class TestGoogleFlights(unittest.TestCase):
         cal = calendario(VIAJE, date(2026, 11, 2), falso, "2026-11-02T11:05:00Z", None, pausa=0)
         self.assertEqual(len(llamadas), 31)
         self.assertEqual(llamadas[0], ("2027-03-01", "2027-03-18"))
-        self.assertEqual((cal["estadia_dias"], len(cal["fechas"]), cal["errores"], cal["generado"]), (17, 31, 0, "2026-11-02T11:05:00Z"))
+        self.assertEqual((cal["estadia_dias"], len(cal["fechas"]), cal["errores"], cal["generado"], cal["completo"]), (17, 31, 0, "2026-11-02T11:05:00Z", True))
         self.assertEqual(cal["fechas"]["2027-03-01"], {"regreso": "2027-03-18", "monto": 900.0, "clp": None, "nivel": "low"})
 
     def test_calendario_tolera_fallos_parciales(self):
@@ -52,13 +52,36 @@ class TestGoogleFlights(unittest.TestCase):
             return resultado([vuelo("A", "$900", 1)], "low")
 
         cal = calendario(VIAJE, date(2026, 11, 2), falso, "x", None, pausa=0)
-        self.assertEqual((len(cal["fechas"]), cal["errores"]), (29, 2))
+        self.assertEqual((len(cal["fechas"]), cal["errores"], cal["completo"]), (29, 2, True))
 
-    def test_calendario_todo_falla_devuelve_none(self):
+    def test_calendario_todo_falla_lanza_con_el_motivo_y_aborta(self):
+        llamadas = []
+
         def falso(*a):
-            raise RuntimeError("bloqueado")
+            llamadas.append(a)
+            raise RuntimeError("bloqueado por Google")
 
-        self.assertIsNone(calendario(VIAJE, date(2026, 11, 2), falso, "x", None, pausa=0))
+        with self.assertRaisesRegex(RuntimeError, "bloqueado por Google"):
+            calendario(VIAJE, date(2026, 11, 2), falso, "x", None, pausa=0)
+        self.assertEqual(len(llamadas), 3)
+
+    def test_calendario_aborta_tras_3_errores_seguidos_y_queda_incompleto(self):
+        def falso(viaje, salida, regreso):
+            if salida >= "2027-03-04":
+                raise RuntimeError("bloqueado")
+            return resultado([vuelo("A", "$900", 1)], "low")
+
+        cal = calendario(VIAJE, date(2026, 11, 2), falso, "x", None, pausa=0)
+        self.assertEqual((len(cal["fechas"]), cal["errores"], cal["completo"]), (3, 3, False))
+
+    def test_calendario_con_un_fallo_aislado_sigue_completo(self):
+        def falso(viaje, salida, regreso):
+            if salida == "2027-03-05":
+                raise RuntimeError("raro")
+            return resultado([vuelo("A", "$900", 1)], "low")
+
+        cal = calendario(VIAJE, date(2026, 11, 2), falso, "x", None, pausa=0)
+        self.assertEqual((len(cal["fechas"]), cal["completo"]), (30, True))
 
 
 if __name__ == "__main__":

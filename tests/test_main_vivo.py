@@ -100,7 +100,7 @@ class TestEjecutarEnVivo(unittest.TestCase):
         self.assertEqual(estado["fuentes"]["fast_flights"]["estado"], "error")
 
     def test_calendario_vigente_no_se_regenera(self):
-        escribir_json(self.raiz / f"data/calendario/{ID}.json", {"generado": "2026-11-01T11:00:00Z", "estadia_dias": 17, "fechas": {"2027-03-09": {"regreso": "2027-03-26", "monto": 850.0, "clp": None, "nivel": "low"}}, "errores": 0})
+        escribir_json(self.raiz / f"data/calendario/{ID}.json", {"generado": "2026-11-01T11:00:00Z", "completo": True, "estadia_dias": 17, "fechas": {"2027-03-09": {"regreso": "2027-03-26", "monto": 850.0, "clp": None, "nivel": "low"}}, "errores": 0})
         buscar = Buscar()
         estado = ejecutar(self.raiz, get_falso(), AHORA, CLAVES, buscar=buscar, pausa=0)
         self.assertEqual(buscar.llamadas, 0)
@@ -111,6 +111,18 @@ class TestEjecutarEnVivo(unittest.TestCase):
         self.assertEqual(estado["fuentes"]["fast_flights"]["estado"], "desactivado")
         self.assertEqual(estado["fuentes"]["serpapi"]["estado"], "sin_clave")
         self.assertNotIn("referencia", estado["viajes"][ID])
+
+    def test_segunda_corrida_del_mismo_dia_no_gasta_serpapi_ni_scrapea(self):
+        ejecutar(self.raiz, get_falso(), AHORA, CLAVES, buscar=Buscar(), pausa=0)
+        buscar = Buscar()
+        estado = ejecutar(self.raiz, get_falso("prohibido"), AHORA + timedelta(hours=3), CLAVES, buscar=buscar, pausa=0)
+        self.assertEqual(estado["serpapi_uso"]["usadas"], 1)
+        self.assertEqual(buscar.llamadas, 0)
+        self.assertEqual(estado["viajes"][ID]["fuente_en_vivo"], "serpapi")
+
+    def test_calendario_bloqueado_registra_el_motivo_real(self):
+        estado = ejecutar(self.raiz, get_falso("prohibido"), AHORA, CLAVES, buscar=Buscar(falla=True), pausa=0)
+        self.assertIn("bloqueado", estado["fuentes"]["fast_flights"]["detalle"])
 
     def test_clave_serpapi_no_aparece_en_estado(self):
         estado = ejecutar(self.raiz, get_falso("error"), AHORA, {"travelpayouts": "t", "serpapi": "CLAVE-SECRETA"}, buscar=Buscar(), pausa=0)
