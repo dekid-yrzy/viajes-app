@@ -7,7 +7,7 @@ ER_API_URL = "https://open.er-api.com/v6/latest/USD"
 
 def _validar(tasas: dict) -> dict:
     for moneda, valor in tasas.items():
-        if not isinstance(valor, (int, float)) or valor <= 0:
+        if isinstance(valor, bool) or not isinstance(valor, (int, float)) or valor <= 0:
             raise ValueError(f"tasa inválida para {moneda}: {valor!r}")
     return tasas
 
@@ -34,7 +34,7 @@ def obtener(get_json, historial: dict) -> tuple[dict | None, str]:
     for nombre, url, parsear in (("mindicador", MINDICADOR_URL, desde_mindicador), ("er-api", ER_API_URL, desde_er_api)):
         try:
             return parsear(get_json(url)), nombre
-        except (ErrorRed, ValueError):
+        except (ErrorRed, ValueError, TypeError, AttributeError, KeyError):
             continue
     if historial:
         return historial[max(historial)], "historial"

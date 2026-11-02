@@ -46,3 +46,15 @@ class TestTiposCambio(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class TestTiposCambioRobustez(unittest.TestCase):
+    def test_respuesta_que_no_es_dict_pasa_a_la_siguiente_fuente(self):
+        def falso(url, params=None, headers=None, timeout=30):
+            return [] if url == MINDICADOR_URL else ["no", "dict"]
+
+        self.assertEqual(obtener(falso, {}), (None, "sin_datos"))
+
+    def test_mindicador_rechaza_booleanos(self):
+        with self.assertRaises(ValueError):
+            desde_mindicador({"dolar": {"valor": True}, "euro": {"valor": 1000.0}})

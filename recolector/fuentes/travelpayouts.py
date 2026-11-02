@@ -51,42 +51,53 @@ def consultas(viaje: dict, hoy: date) -> list[dict]:
 
 
 def ofertas(resp: dict, viaje: dict, hoy: date, capturado: str, tasas: dict | None) -> list[dict]:
-    inicio, fin = _ventana(viaje)
-    ida_vuelta = viaje["tipo"] == "ida_vuelta"
     moneda = str(resp.get("currency") or "usd").upper()
     resultado = []
     for item in resp.get("data") or []:
-        if item.get("price") is None or not item.get("departure_at"):
-            continue
-        salida = item["departure_at"][:10]
-        regreso = (item.get("return_at") or "")[:10] or None
-        d_salida = date.fromisoformat(salida)
-        if d_salida < hoy or not inicio <= d_salida <= fin:
-            continue
-        if ida_vuelta:
-            if regreso is None:
-                continue
-            estadia = (date.fromisoformat(regreso) - d_salida).days
-            minimo, maximo = viaje["estadia_dias"]
-            if viaje["fechas"]["modo"] != "fija" and not minimo <= estadia <= maximo:
-                continue
-        monto = round(item["price"] * viaje["pasajeros"], 2)
-        resultado.append({
-            "capturado": capturado,
-            "fuente": "travelpayouts",
-            "salida": salida,
-            "regreso": regreso if ida_vuelta else None,
-            "origen": item.get("origin_airport") or viaje["origen"],
-            "destino": item.get("destination_airport") or viaje["destino"],
-            "precio": {"monto": monto, "moneda": moneda, "clp": a_clp(monto, moneda, tasas)},
-            "escalas": max(item.get("transfers") or 0, item.get("return_transfers") or 0),
-            "duracion_min": item.get("duration"),
-            "aerolineas": [item["airline"]] if item.get("airline") else [],
-            "self_transfer": False,
-            "tramos": [],
-            "enlace": "https://www.aviasales.com" + item["link"] if item.get("link") else None,
-        })
+        try:
+            observacion = _normalizar(item, viaje, hoy, capturado, tasas, moneda)
+        except (ValueError, TypeError, KeyError, AttributeError):
+            continue  # un ítem malformado no debe descartar el resto
+        if observacion:
+            resultado.append(observacion)
     return resultado
+
+
+def _normalizar(item: dict, viaje: dict, hoy: date, capturado: str, tasas: dict | None, moneda: str) -> dict | None:
+    """Observación según SPEC 4.3, o None si la oferta no aplica al viaje."""
+    precio = item.get("price")
+    if isinstance(precio, bool) or not isinstance(precio, (int, float)) or precio <= 0 or not item.get("departure_at"):
+        return None
+    inicio, fin = _ventana(viaje)
+    ida_vuelta = viaje["tipo"] == "ida_vuelta"
+    salida = item["departure_at"][:10]
+    regreso = (item.get("return_at") or "")[:10] or None
+    d_salida = date.fromisoformat(salida)
+    if d_salida < hoy or not inicio <= d_salida <= fin:
+        return None
+    if ida_vuelta:
+        if regreso is None:
+            return None
+        estadia = (date.fromisoformat(regreso) - d_salida).days
+        minimo, maximo = viaje["estadia_dias"]
+        if viaje["fechas"]["modo"] != "fija" and not minimo <= estadia <= maximo:
+            return None
+    monto = round(precio * viaje["pasajeros"], 2)
+    return {
+        "capturado": capturado,
+        "fuente": "travelpayouts",
+        "salida": salida,
+        "regreso": regreso if ida_vuelta else None,
+        "origen": item.get("origin_airport") or viaje["origen"],
+        "destino": item.get("destination_airport") or viaje["destino"],
+        "precio": {"monto": monto, "moneda": moneda, "clp": a_clp(monto, moneda, tasas)},
+        "escalas": max(item.get("transfers") or 0, item.get("return_transfers") or 0),
+        "duracion_min": item.get("duration"),
+        "aerolineas": [item["airline"]] if item.get("airline") else [],
+        "self_transfer": False,
+        "tramos": [],
+        "enlace": "https://www.aviasales.com" + item["link"] if item.get("link") else None,
+    }
 
 
 def cobertura(lista: list[dict], viaje: dict, hoy: date) -> dict:

@@ -105,3 +105,19 @@ class TestRecolectar(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class TestOfertasRobustez(unittest.TestCase):
+    def test_items_malformados_se_descartan_sin_perder_los_validos(self):
+        resp = fixture("travelpayouts_mes.json")
+        valido = resp["data"][0]
+        resp["data"] = [
+            {**valido, "price": 0},
+            {**valido, "price": -5},
+            {**valido, "price": "1043"},
+            {**valido, "departure_at": "no-es-fecha"},
+            {**valido, "return_at": "2027-13-40"},
+            valido,
+        ]
+        lista = ofertas(resp, VIAJE, HOY, "x", None)
+        self.assertEqual([o["precio"]["monto"] for o in lista], [1043.2])

@@ -1,4 +1,5 @@
 """Cliente HTTP mínimo sobre urllib que devuelve JSON."""
+import http.client
 import json
 import urllib.error
 import urllib.parse
@@ -21,5 +22,6 @@ def get_json(url: str, params: dict | None = None, headers: dict | None = None, 
             return json.loads(respuesta.read().decode("utf-8"))
     except urllib.error.HTTPError as e:
         raise ErrorRed(f"HTTP {e.code}", estado=e.code) from e
-    except (urllib.error.URLError, TimeoutError, json.JSONDecodeError, UnicodeDecodeError) as e:
+    # OSError y HTTPException cubren cortes de conexión que urllib no envuelve en URLError
+    except (OSError, http.client.HTTPException, json.JSONDecodeError, UnicodeDecodeError) as e:
         raise ErrorRed(str(e)) from e
