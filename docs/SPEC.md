@@ -245,7 +245,15 @@ Resultado: **la caché de Travelpayouts no sirve como fuente base** para rutas l
 - Ida y vuelta SCL→FRA, SCL→MAD y SCL→NRT en marzo de 2027: entre 133 y 193 vuelos por consulta, en 1 a 2 segundos cada una. Incluye el nivel de precio de Google (`low`/`typical`/`high`), aerolíneas, horarios, duración y escalas. Los precios vienen como texto en USD (`"$968"`).
 - Sin bloqueos en 4 consultas seguidas. Es una muestra mínima: el riesgo de bloqueo con más volumen sigue abierto.
 
-### 5.3 SerpApi Google Flights (según su documentación, sin probar aún)
+### 5.3 SerpApi Google Flights (probado desde Actions el 2026-11-02)
+
+Prueba real con SCL→FRA, ida 2027-03-08 y vuelta 2027-03-24, `currency=USD`, `hl=es`, `gl=cl`:
+- Cuenta: `Free Plan`, 250 búsquedas al mes y 250 por hora (confirmado con `/account`, que no consume cuota).
+- Respuesta: 5 `best_flights` + 6 `other_flights`, con precios de 971 a 1919 USD como **enteros**. Cada itinerario trae `flights` (tramos con aeropuerto, hora y aerolínea), `layovers` (minutos), `total_duration`, `price` y `departure_token`.
+- `price_insights`: `lowest_price` 971, `price_level` "typical", `typical_price_range` [840, 1100] y **`price_history` con 61 puntos diarios `[timestamp_unix, precio]`** (del 2026-09-03 al 2026-11-02). Permite sembrar el histórico de la serie "en vivo" desde la primera consulta.
+- fast-flights dio 968 USD el mismo día para la misma búsqueda, así que ambas fuentes coinciden.
+
+Datos de la documentación, no probados:
 
 - Por defecto busca ida y vuelta (`type=1`) y requiere `outbound_date` y `return_date`. El precio de `best_flights`/`other_flights` es el del viaje completo.
 - Los detalles del tramo de regreso requieren una **segunda consulta** con `departure_token`. Solo hace falta para el itinerario (H8), no para la serie diaria.
