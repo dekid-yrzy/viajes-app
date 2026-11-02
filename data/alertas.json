@@ -1,0 +1,22 @@
+{
+  "alertas": [
+    {
+      "viaje_id": "scl-mad-2027-03",
+      "tipo": "umbral",
+      "fuente": "serpapi",
+      "precio_usd": 682.0,
+      "precio_clp": 675753,
+      "referencia_usd": null,
+      "referencia_clp": 2000000,
+      "costo_total_clp": 735753,
+      "salida": "2027-03-05",
+      "regreso": "2027-03-22",
+      "motivo": "Costo total CLP 735.753 bajo tu umbral de CLP 2.000.000",
+      "id": "scl-mad-2027-03-umbral-2026-11-02T18:35:19Z",
+      "fecha": "2026-11-02T18:35:19Z",
+      "canales_enviados": [
+        "app"
+      ]
+    }
+  ]
+}

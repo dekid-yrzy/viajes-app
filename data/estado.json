@@ -1,6 +1,6 @@
 {
-  "ultima_corrida": "2026-11-02T18:14:04Z",
-  "tipos_cambio": "er-api",
+  "ultima_corrida": "2026-11-02T18:35:19Z",
+  "tipos_cambio": "mindicador",
   "fuentes": {
     "travelpayouts": {
       "estado": "ok",
@@ -12,6 +12,14 @@
     },
     "fast_flights": {
       "estado": "ok",
+      "detalle": ""
+    },
+    "telegram": {
+      "estado": "error",
+      "detalle": "HTTP 403"
+    },
+    "email": {
+      "estado": "sin_configurar",
       "detalle": ""
     }
   },
@@ -54,5 +62,6 @@
       "fuente_en_vivo": "serpapi"
     }
   },
+  "alertas_nuevas": 1,
   "errores": []
 }
