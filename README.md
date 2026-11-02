@@ -12,4 +12,18 @@ App personal para planificar viajes y rastrear precios de vuelos desde SCL. Se a
 
 ## Secretos de GitHub Actions
 
-`TRAVELPAYOUTS_TOKEN`, `SERPAPI_KEY`, `TELEGRAM_BOT_TOKEN`, `TELEGRAM_CHAT_ID`, `SMTP_USER`, `SMTP_PASSWORD`, `EMAIL_DESTINO`. Hoy se usan `TRAVELPAYOUTS_TOKEN` y `SERPAPI_KEY`.
+`TRAVELPAYOUTS_TOKEN`, `SERPAPI_KEY`, `TELEGRAM_BOT_TOKEN`, `TELEGRAM_CHAT_ID`, `SMTP_USER`, `SMTP_PASSWORD`, `EMAIL_DESTINO`. Hoy se usan todos. Si faltan los de Telegram o email, ese canal se salta y las alertas quedan solo en la app.
+
+## Configurar alertas
+
+Cada secreto se carga con `gh secret set <NOMBRE> --repo dekid-yrzy/viajes-app` (pegando el valor cuando lo pida).
+
+**Telegram**
+1. En Telegram, abre @BotFather, envía `/newbot` y sigue los pasos. Copia el token que te entrega → `TELEGRAM_BOT_TOKEN`.
+2. Abre el chat con tu bot nuevo y envíale cualquier mensaje.
+3. Abre `https://api.telegram.org/bot<TOKEN>/getUpdates` en el navegador y copia el número de `"chat":{"id": ...}` → `TELEGRAM_CHAT_ID`.
+
+**Email (Gmail)**
+1. Activa la verificación en dos pasos en tu cuenta de Google.
+2. Crea una contraseña de aplicación en https://myaccount.google.com/apppasswords.
+3. Carga `SMTP_USER` (tu Gmail), `SMTP_PASSWORD` (la contraseña de aplicación de 16 letras, sin espacios) y `EMAIL_DESTINO` (adonde llegan las alertas).
