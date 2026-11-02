@@ -1,6 +1,6 @@
 {
-  "ultima_corrida": "2026-11-02T18:35:19Z",
-  "tipos_cambio": "mindicador",
+  "ultima_corrida": "2026-11-02T18:40:08Z",
+  "tipos_cambio": "er-api",
   "fuentes": {
     "travelpayouts": {
       "estado": "ok",
@@ -15,12 +15,12 @@
       "detalle": ""
     },
     "telegram": {
-      "estado": "error",
-      "detalle": "HTTP 403"
+      "estado": "ok",
+      "detalle": ""
     },
     "email": {
-      "estado": "sin_configurar",
-      "detalle": ""
+      "estado": "error",
+      "detalle": "SMTPRecipientsRefused"
     }
   },
   "serpapi_uso": {
