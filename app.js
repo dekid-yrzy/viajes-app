@@ -115,6 +115,43 @@ function renderInicio(lista, ctx) {
   vista.replaceChildren(lista.length ? ul : el("p", "vacio", "No hay viajes activos."));
 }
 
+const TIPOS_ALERTA = { umbral: "Bajo tu umbral", caida_pct: "Caída de precio", minimo_historico: "Mínimo histórico" };
+const CANALES = { telegram: "Telegram", email: "Email", app: "App" };
+
+function alertasRecientes(alertas, dias = 7) {
+  const desde = Date.now() - dias * 86400000;
+  return alertas.filter((a) => Date.parse(a.fecha) >= desde);
+}
+
+function renderAlertas(alertas, lista) {
+  const rutas = new Map(lista.map((d) => [d.viaje.id, `${d.viaje.origen} → ${d.viaje.destino}`]));
+  const partes = [el("h2", "ruta", "Alertas")];
+  if (!alertas.length) {
+    partes.push(el("p", "vacio", "Todavía no hay alertas."));
+    vista.replaceChildren(...partes);
+    return;
+  }
+  const ul = el("ul", "alertas");
+  for (const a of [...alertas].reverse()) {
+    const li = el("li", "alerta");
+    const cabecera = el("div", "alerta-cabecera");
+    cabecera.append(el("strong", null, rutas.get(a.viaje_id) ?? a.viaje_id), el("span", "atenuado", fechaHora(a.fecha)));
+    li.append(cabecera, el("p", "alerta-tipo", TIPOS_ALERTA[a.tipo] ?? a.tipo), el("p", null, a.motivo ?? ""));
+    const pie = el("div", "fila-datos");
+    pie.append(el("span", "atenuado", `Costo total estimado: ${formatoMoneda(a.costo_total_clp ?? null, "CLP")}`));
+    pie.append(el("span", "atenuado", `Avisado por: ${(a.canales_enviados ?? []).map((c) => CANALES[c] ?? c).join(", ")}`));
+    if (rutas.has(a.viaje_id)) {
+      const ver = el("a", "secundario", "Ver viaje →");
+      ver.href = `#/viaje/${encodeURIComponent(a.viaje_id)}`;
+      pie.append(ver);
+    }
+    li.append(pie);
+    ul.append(li);
+  }
+  partes.push(ul);
+  vista.replaceChildren(...partes);
+}
+
 function renderDetalle(datos, ctx) {
   const { viaje } = datos;
   const r = resumen(datos, ctx);
@@ -230,23 +267,31 @@ function panelGrafico(datos, r, ctx) {
 let cache = null;
 
 async function cargar() {
-  const [viajes, ajustes, estado, tasas] = await Promise.all([
+  const [viajes, ajustes, estado, tasas, alertas] = await Promise.all([
     json("config/viajes.json", { viajes: [] }),
     json("config/ajustes.json", {}),
     json("data/estado.json", {}),
     json("data/tipos_cambio.json", {}),
+    json("data/alertas.json", { alertas: [] }),
   ]);
+  const recientes = alertasRecientes(alertas?.alertas ?? []).length;
+  document.getElementById("enlace-alertas").textContent = recientes ? `Alertas (${recientes})` : "Alertas";
   document.getElementById("actualizado").textContent = estado.ultima_corrida
     ? `Actualizado: ${fechaHora(estado.ultima_corrida)}`
     : "Aún no hay datos";
   const activos = (viajes.viajes ?? []).filter((v) => v.activo);
   const lista = await Promise.all(activos.map((v) => cargarViaje(v, estado)));
-  return { lista, tasas, minimo: ajustes.min_observaciones_percentil ?? 14 };
+  return { lista, tasas, minimo: ajustes.min_observaciones_percentil ?? 14, alertas: alertas?.alertas ?? [] };
 }
 
 async function render() {
   cache ??= await cargar();
   const ctx = { tasas: cache.tasas, minimo: cache.minimo, moneda: selector.value };
+  if (location.hash === "#/alertas") {
+    document.title = "Alertas · Viajes";
+    renderAlertas(cache.alertas, cache.lista);
+    return;
+  }
   const ruta = location.hash.match(/^#\/viaje\/(.+)$/);
   if (ruta) {
     const datos = cache.lista.find((d) => d.viaje.id === decodeURIComponent(ruta[1]));

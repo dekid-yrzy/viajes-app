@@ -138,6 +138,12 @@ th:first-child, td:first-child { text-align: left; }
 th { color: var(--tinta-2); font-weight: 550; position: sticky; top: 0; background: var(--superficie); }
 
 .vacio { color: var(--tinta-2); }
+.enlace-alertas { margin-left: 12px; font-size: 0.875rem; font-weight: 500; color: var(--tinta-2); }
+.alertas { list-style: none; padding: 0; margin: 0 0 32px; display: grid; gap: 12px; }
+.alerta { background: var(--superficie); border: 1px solid var(--borde); border-radius: var(--radio); padding: 12px 16px; }
+.alerta p { margin: 4px 0; }
+.alerta-cabecera { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 4px 12px; }
+.alerta-tipo { font-weight: 600; }
 .precio.vacio { font-size: 1rem; font-weight: 500; }
 
 @media (max-width: 480px) {
