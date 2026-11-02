@@ -1,0 +1,26 @@
+{
+  "viaje_id": "scl-nrt-2027-03",
+  "observaciones": [
+    {
+      "capturado": "2026-11-02T17:20:57Z",
+      "fuente": "travelpayouts",
+      "salida": "2027-03-15",
+      "regreso": "2027-03-31",
+      "origen": "SCL",
+      "destino": "NRT",
+      "precio": {
+        "monto": 1891,
+        "moneda": "USD",
+        "clp": 1873678
+      },
+      "escalas": 1,
+      "duracion_min": 3425,
+      "aerolineas": [
+        "LA"
+      ],
+      "self_transfer": false,
+      "tramos": [],
+      "enlace": "https://www.aviasales.com/search/SCL1503NRT31031?t=LA18051153001805267100001810SCLAKLNRT18065247001806578400001615NRTMELSCL_fe37ac1b0d26baa6cae5c0a7e2518da8_152206&search_date=28102026&expected_price_uuid=01a184d0-3bd3-8031-664d-83241c7436e2&static_fare_key=TY%7CP0%7CH0%7CL1_1_0%7CCH1%7CR1%7CTBC1&itinerary_key=KZnpm8tmmgE8W5Esiw1CbA&origin_airports=1&destination_airports=0&expected_price_source=share&expected_price_currency=usd&expected_price=1891"
+    }
+  ]
+}

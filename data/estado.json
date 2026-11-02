@@ -1,7 +1,28 @@
 {
-  "ultima_corrida": null,
-  "tipos_cambio": null,
-  "fuentes": {},
-  "viajes": {},
+  "ultima_corrida": "2026-11-02T17:20:57Z",
+  "tipos_cambio": "er-api",
+  "fuentes": {
+    "travelpayouts": {
+      "estado": "ok",
+      "detalle": ""
+    }
+  },
+  "viajes": {
+    "scl-fra-2027-03": {
+      "ofertas": 0,
+      "fechas_con_precio": 0,
+      "fechas_posibles": 31
+    },
+    "scl-mad-2027-03": {
+      "ofertas": 0,
+      "fechas_con_precio": 0,
+      "fechas_posibles": 31
+    },
+    "scl-nrt-2027-03": {
+      "ofertas": 1,
+      "fechas_con_precio": 1,
+      "fechas_posibles": 31
+    }
+  },
   "errores": []
 }
