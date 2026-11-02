@@ -1,0 +1,11 @@
+{
+  "success": true,
+  "currency": "usd",
+  "data": [
+    {"origin": "SCL", "destination": "FRA", "origin_airport": "SCL", "destination_airport": "FRA", "price": 1043.2, "airline": "LA", "flight_number": "704", "departure_at": "2027-03-08T23:55:00-03:00", "return_at": "2027-03-24T21:40:00+01:00", "transfers": 1, "return_transfers": 1, "duration": 2160, "duration_to": 1080, "duration_back": 1080, "link": "/search/SCL0803FRA24031?t=LA1"},
+    {"origin": "SCL", "destination": "FRA", "origin_airport": "SCL", "destination_airport": "FRA", "price": 1100, "airline": "IB", "flight_number": "6830", "departure_at": "2027-03-15T13:20:00-03:00", "return_at": "2027-03-31T10:05:00+02:00", "transfers": 1, "return_transfers": 2, "duration": 2300, "duration_to": 1100, "duration_back": 1200, "link": "/search/SCL1503FRA31031?t=IB1"},
+    {"origin": "SCL", "destination": "FRA", "origin_airport": "SCL", "destination_airport": "FRA", "price": 900, "airline": "LH", "flight_number": "511", "departure_at": "2027-03-10T17:00:00-03:00", "return_at": "2027-03-17T12:00:00+01:00", "transfers": 1, "return_transfers": 1, "duration": 2100, "duration_to": 1050, "duration_back": 1050, "link": "/search/SCL1003FRA17031?t=LH1"},
+    {"origin": "SCL", "destination": "FRA", "origin_airport": "SCL", "destination_airport": "FRA", "price": null, "airline": "AF", "flight_number": "403", "departure_at": "2027-03-12T18:00:00-03:00", "return_at": "2027-03-28T12:00:00+01:00", "transfers": 1, "return_transfers": 1, "duration": 2200, "duration_to": 1100, "duration_back": 1100, "link": "/search/SCL1203FRA28031?t=AF1"},
+    {"origin": "SCL", "destination": "FRA", "origin_airport": "SCL", "destination_airport": "FRA", "price": 980, "airline": "KL", "flight_number": "702", "departure_at": "2027-04-02T18:00:00-03:00", "return_at": "2027-04-18T12:00:00+01:00", "transfers": 1, "return_transfers": 1, "duration": 2200, "duration_to": 1100, "duration_back": 1100, "link": "/search/SCL0204FRA18041?t=KL1"}
+  ]
+}
