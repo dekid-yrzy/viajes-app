@@ -5,7 +5,8 @@ App personal para planificar viajes y rastrear precios de vuelos desde SCL. Se a
 ## Desarrollo
 
 - Dependencias de runtime: `pip install -r requirements.txt` (solo fast-flights; los tests no la necesitan)
-- Tests: `python -m unittest discover -s tests -v`
+- Tests: `python -m unittest discover -s tests -v` y `node --test "tests/js/*.test.js"` (frontend, sin dependencias)
+- Frontend: `index.html` + `app.js` (vistas) y `js/` (lógica pura: estadística, datos, formato, gráfico)
 - Recolector: `TRAVELPAYOUTS_TOKEN=... SERPAPI_KEY=... python -m recolector` (`DESACTIVAR_FAST_FLIGHTS=1` apaga el scraping de Google Flights)
 - Vista local: `python -m http.server 8000` y abrir http://localhost:8000
 

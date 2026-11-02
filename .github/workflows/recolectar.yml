@@ -25,6 +25,8 @@ jobs:
         run: pip install -r requirements.txt
       - name: Tests
         run: python -m unittest discover -s tests
+      - name: Tests del frontend
+        run: node --test "tests/js/*.test.js"
       - name: Recolector
         run: python -m recolector
         env:
