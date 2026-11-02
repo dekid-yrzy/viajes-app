@@ -44,7 +44,7 @@ class TestEjecutar(unittest.TestCase):
         return leer_json(self.raiz / f"data/precios/{ID}/2026-11.json", None)["observaciones"]
 
     def test_corrida_completa(self):
-        estado = ejecutar(self.raiz, falso(), AHORA, "t")
+        estado = ejecutar(self.raiz, falso(), AHORA, {"travelpayouts": "t", "serpapi": None})
         self.assertEqual(estado["ultima_corrida"], "2026-11-02T11:05:00Z")
         self.assertEqual(estado["tipos_cambio"], "mindicador")
         self.assertEqual(estado["fuentes"]["travelpayouts"]["estado"], "ok")
@@ -56,43 +56,43 @@ class TestEjecutar(unittest.TestCase):
         self.assertEqual(leer_json(self.raiz / "data/estado.json", None), estado)
 
     def test_viaje_inactivo_no_consulta(self):
-        ejecutar(self.raiz, falso(), AHORA, "t")
+        ejecutar(self.raiz, falso(), AHORA, {"travelpayouts": "t", "serpapi": None})
         self.assertNotIn("inactivo-1", leer_json(self.raiz / "data/estado.json", None)["viajes"])
         self.assertFalse((self.raiz / "data/precios/inactivo-1").exists())
 
     def test_viaje_pasado_se_salta_sin_error(self):
         pasado = {**VIAJE, "id": "pasado", "fechas": {"modo": "mes", "mes": "2026-09"}}
         escribir_json(self.raiz / "config/viajes.json", {"viajes": [pasado]})
-        estado = ejecutar(self.raiz, falso(travelpayouts=AssertionError("no debe consultar")), AHORA, "t")
+        estado = ejecutar(self.raiz, falso(travelpayouts=AssertionError("no debe consultar")), AHORA, {"travelpayouts": "t", "serpapi": None})
         self.assertEqual(estado["errores"], [])
         self.assertNotIn("pasado", estado["viajes"])
 
     def test_fuente_falla_no_tumba(self):
-        estado = ejecutar(self.raiz, falso(travelpayouts=ErrorRed("HTTP 500", estado=500)), AHORA, "t")
+        estado = ejecutar(self.raiz, falso(travelpayouts=ErrorRed("HTTP 500", estado=500)), AHORA, {"travelpayouts": "t", "serpapi": None})
         self.assertEqual(estado["fuentes"]["travelpayouts"]["estado"], "error")
         self.assertEqual(estado["errores"][-1]["viaje_id"], ID)
         self.assertEqual(estado["errores"][-1]["fuente"], "travelpayouts")
 
     def test_sin_token(self):
-        estado = ejecutar(self.raiz, falso(), AHORA, None)
+        estado = ejecutar(self.raiz, falso(), AHORA, {"travelpayouts": None, "serpapi": None})
         self.assertEqual(estado["fuentes"]["travelpayouts"], {"estado": "error", "detalle": "falta TRAVELPAYOUTS_TOKEN"})
         self.assertFalse((self.raiz / f"data/precios/{ID}").exists())
 
     def test_sin_tipos_de_cambio_guarda_clp_null(self):
-        estado = ejecutar(self.raiz, falso(tasas=False), AHORA, "t")
+        estado = ejecutar(self.raiz, falso(tasas=False), AHORA, {"travelpayouts": "t", "serpapi": None})
         self.assertEqual(estado["tipos_cambio"], "sin_datos")
         self.assertIsNone(self.observaciones()[0]["precio"]["clp"])
         self.assertEqual(leer_json(self.raiz / "data/tipos_cambio.json", {}), {})
 
     def test_ruta_sin_datos(self):
-        estado = ejecutar(self.raiz, falso(travelpayouts={"success": True, "currency": "usd", "data": []}), AHORA, "t")
+        estado = ejecutar(self.raiz, falso(travelpayouts={"success": True, "currency": "usd", "data": []}), AHORA, {"travelpayouts": "t", "serpapi": None})
         self.assertEqual(estado["fuentes"]["travelpayouts"]["estado"], "ok")
         self.assertEqual(estado["viajes"][ID]["fechas_con_precio"], 0)
         self.assertFalse((self.raiz / f"data/precios/{ID}").exists())
 
     def test_errores_se_recortan_a_20(self):
         escribir_json(self.raiz / "data/estado.json", {"errores": [{"mensaje": str(i)} for i in range(25)]})
-        estado = ejecutar(self.raiz, falso(travelpayouts=ErrorRed("HTTP 500", estado=500)), AHORA, "t")
+        estado = ejecutar(self.raiz, falso(travelpayouts=ErrorRed("HTTP 500", estado=500)), AHORA, {"travelpayouts": "t", "serpapi": None})
         self.assertEqual(len(estado["errores"]), 20)
         self.assertEqual(estado["errores"][-1]["viaje_id"], ID)
 

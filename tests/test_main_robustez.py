@@ -21,7 +21,7 @@ class TestEjecutarRobustez(unittest.TestCase):
         roto = {**VIAJE, "id": "roto", "fechas": {"modo": "flexibe"}}
         sin_id = {k: v for k, v in VIAJE.items() if k != "id"} | {"fechas": {"modo": "fija", "salida": "mal"}}
         escribir_json(self.raiz / "config/viajes.json", {"viajes": [roto, sin_id, VIAJE]})
-        estado = ejecutar(self.raiz, falso(), AHORA, "t")
+        estado = ejecutar(self.raiz, falso(), AHORA, {"travelpayouts": "t", "serpapi": None})
         self.assertEqual([e["viaje_id"] for e in estado["errores"]], ["roto", None])
         self.assertTrue((self.raiz / f"data/precios/{ID}/2026-11.json").exists())
         self.assertEqual(leer_json(self.raiz / "data/estado.json", None), estado)
@@ -31,14 +31,14 @@ class TestEjecutarRobustez(unittest.TestCase):
         (self.raiz / "data").mkdir(exist_ok=True)
         (self.raiz / "data/estado.json").write_text("{roto", encoding="utf-8")
         (self.raiz / "data/tipos_cambio.json").write_text("", encoding="utf-8")
-        estado = ejecutar(self.raiz, falso(), AHORA, "t")
+        estado = ejecutar(self.raiz, falso(), AHORA, {"travelpayouts": "t", "serpapi": None})
         self.assertEqual(estado["fuentes"]["travelpayouts"]["estado"], "ok")
         self.assertIn("2026-11-02", leer_json(self.raiz / "data/tipos_cambio.json", {}))
 
     def test_config_corrupta_queda_registrada_en_estado(self):
         (self.raiz / "config").mkdir()
         (self.raiz / "config/viajes.json").write_text("{roto", encoding="utf-8")
-        estado = ejecutar(self.raiz, falso(), AHORA, "t")
+        estado = ejecutar(self.raiz, falso(), AHORA, {"travelpayouts": "t", "serpapi": None})
         self.assertEqual(estado["errores"][-1]["fuente"], "config")
         self.assertEqual(leer_json(self.raiz / "data/estado.json", None), estado)
 
