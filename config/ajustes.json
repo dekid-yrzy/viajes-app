@@ -1,0 +1,11 @@
+{
+  "origen_defecto": "SCL",
+  "hubs_self_transfer": ["GRU", "EZE", "LIM", "BOG", "PTY", "MAD", "LIS", "IST", "DOH", "DXB"],
+  "conexion_min_horas": 4,
+  "conexion_min_horas_con_maleta": 6,
+  "margen_riesgo_self_transfer_clp": 80000,
+  "caida_pct_alerta": 10,
+  "min_observaciones_percentil": 14,
+  "serpapi_presupuesto_mensual": 200,
+  "radio_aeropuertos_km": 150
+}
