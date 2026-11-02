@@ -5,6 +5,13 @@ from datetime import datetime, timezone
 from recolector import red
 
 clave = os.environ["SERPAPI_KEY"]
+print("clave: largo", len(clave), "| hex:", all(c in "0123456789abcdef" for c in clave), "| espacios en bordes:", clave != clave.strip())
+import urllib.error, urllib.parse, urllib.request
+try:
+    urllib.request.urlopen("https://serpapi.com/account?" + urllib.parse.urlencode({"api_key": clave.strip()}), timeout=30)
+    print("account: ok")
+except urllib.error.HTTPError as e:
+    print("account error:", e.code, e.read().decode("utf-8", "replace")[:300])
 cuenta = red.get_json("https://serpapi.com/account", {"api_key": clave})
 print("cuenta:", {k: cuenta.get(k) for k in ("plan_name", "searches_per_month", "plan_searches_left", "this_month_usage", "account_rate_limit_per_hour")})
 
