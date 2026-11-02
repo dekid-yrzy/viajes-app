@@ -36,6 +36,26 @@
         "telegram",
         "app"
       ]
+    },
+    {
+      "viaje_id": "scl-fra-2027-03",
+      "tipo": "umbral",
+      "fuente": "serpapi",
+      "precio_usd": 966.0,
+      "precio_clp": 957151,
+      "referencia_usd": null,
+      "referencia_clp": 2000000,
+      "costo_total_clp": 1017151,
+      "salida": "2027-03-01",
+      "regreso": "2027-03-18",
+      "motivo": "Costo total CLP 1.017.151 bajo tu umbral de CLP 2.000.000",
+      "id": "scl-fra-2027-03-umbral-2026-11-02T18:42:39Z",
+      "fecha": "2026-11-02T18:42:39Z",
+      "canales_enviados": [
+        "telegram",
+        "email",
+        "app"
+      ]
     }
   ]
 }
