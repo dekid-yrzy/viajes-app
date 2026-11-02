@@ -1,0 +1,47 @@
+{
+  "search_metadata": {"id": "abc", "status": "Success", "google_flights_url": "https://www.google.com/travel/flights?hl=es&gl=cl&curr=USD"},
+  "search_parameters": {"engine": "google_flights", "departure_id": "SCL", "arrival_id": "FRA"},
+  "best_flights": [
+    {
+      "flights": [
+        {"departure_airport": {"name": "Arturo Merino Benítez", "id": "SCL", "time": "2027-03-08 21:55"}, "arrival_airport": {"name": "Toronto Pearson", "id": "YYZ", "time": "2027-03-09 06:15"}, "duration": 620, "airline": "Air Canada", "flight_number": "AC 93", "travel_class": "Economy"},
+        {"departure_airport": {"name": "Toronto Pearson", "id": "YYZ", "time": "2027-03-09 17:00"}, "arrival_airport": {"name": "Frankfurt", "id": "FRA", "time": "2027-03-10 06:40"}, "duration": 485, "airline": "Air Canada", "flight_number": "AC 846", "travel_class": "Economy"}
+      ],
+      "layovers": [{"duration": 620, "name": "Toronto Pearson", "id": "YYZ"}],
+      "total_duration": 1725,
+      "price": 971,
+      "type": "Round trip",
+      "departure_token": "tok1"
+    },
+    {
+      "flights": [
+        {"departure_airport": {"name": "Arturo Merino Benítez", "id": "SCL", "time": "2027-03-08 22:00"}, "arrival_airport": {"name": "Madrid", "id": "MAD", "time": "2027-03-09 15:00"}, "duration": 780, "airline": "LATAM", "flight_number": "LA 704", "travel_class": "Economy"},
+        {"departure_airport": {"name": "Madrid", "id": "MAD", "time": "2027-03-09 18:00"}, "arrival_airport": {"name": "Frankfurt", "id": "FRA", "time": "2027-03-09 20:40"}, "duration": 160, "airline": "Iberia", "flight_number": "IB 3500", "travel_class": "Economy"}
+      ],
+      "layovers": [{"duration": 180, "name": "Madrid", "id": "MAD"}],
+      "total_duration": 1120,
+      "price": 997,
+      "type": "Round trip",
+      "departure_token": "tok2"
+    }
+  ],
+  "other_flights": [
+    {"flights": [], "layovers": [], "total_duration": 1300, "type": "Round trip"},
+    {
+      "flights": [
+        {"departure_airport": {"name": "Arturo Merino Benítez", "id": "SCL", "time": "2027-03-08 12:00"}, "arrival_airport": {"name": "Frankfurt", "id": "FRA", "time": "2027-03-09 14:00"}, "duration": 1500, "airline": "Lufthansa", "flight_number": "LH 511", "travel_class": "Economy"}
+      ],
+      "layovers": [],
+      "total_duration": 1500,
+      "price": 1013,
+      "type": "Round trip",
+      "departure_token": "tok3"
+    }
+  ],
+  "price_insights": {
+    "lowest_price": 971,
+    "price_level": "typical",
+    "typical_price_range": [840, 1100],
+    "price_history": [[1788480000, 928], [1788393600, 964], [1793577600, 971], ["malo"]]
+  }
+}
