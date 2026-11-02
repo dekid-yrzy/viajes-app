@@ -13,10 +13,7 @@ class ErrorRed(Exception):
         self.estado = estado
 
 
-def get_json(url: str, params: dict | None = None, headers: dict | None = None, timeout: float = 30) -> Any:
-    if params:
-        url = f"{url}?{urllib.parse.urlencode(params)}"
-    peticion = urllib.request.Request(url, headers={"User-Agent": "viajes-app/1.0", **(headers or {})})
+def _abrir(peticion: urllib.request.Request, timeout: float) -> Any:
     try:
         with urllib.request.urlopen(peticion, timeout=timeout) as respuesta:
             return json.loads(respuesta.read().decode("utf-8"))
@@ -25,3 +22,15 @@ def get_json(url: str, params: dict | None = None, headers: dict | None = None, 
     # OSError y HTTPException cubren cortes de conexión que urllib no envuelve en URLError
     except (OSError, http.client.HTTPException, json.JSONDecodeError, UnicodeDecodeError) as e:
         raise ErrorRed(str(e)) from e
+
+
+def get_json(url: str, params: dict | None = None, headers: dict | None = None, timeout: float = 30) -> Any:
+    if params:
+        url = f"{url}?{urllib.parse.urlencode(params)}"
+    return _abrir(urllib.request.Request(url, headers={"User-Agent": "viajes-app/1.0", **(headers or {})}), timeout)
+
+
+def post_json(url: str, datos: dict, timeout: float = 30) -> Any:
+    cuerpo = json.dumps(datos).encode("utf-8")
+    cabeceras = {"User-Agent": "viajes-app/1.0", "Content-Type": "application/json"}
+    return _abrir(urllib.request.Request(url, data=cuerpo, headers=cabeceras, method="POST"), timeout)
