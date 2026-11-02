@@ -1,0 +1,7 @@
+{
+  "version": "1.7.0",
+  "autor": "mindicador.cl",
+  "fecha": "2026-11-02T03:00:00.000Z",
+  "dolar": {"codigo": "dolar", "nombre": "Dólar observado", "unidad_medida": "Pesos", "fecha": "2026-11-02T03:00:00.000Z", "valor": 945.3},
+  "euro": {"codigo": "euro", "nombre": "Euro", "unidad_medida": "Pesos", "fecha": "2026-11-02T03:00:00.000Z", "valor": 1021.8}
+}
