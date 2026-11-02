@@ -1,5 +1,5 @@
 {
-  "ultima_corrida": "2026-11-02T17:47:21Z",
+  "ultima_corrida": "2026-11-02T18:14:04Z",
   "tipos_cambio": "er-api",
   "fuentes": {
     "travelpayouts": {
@@ -27,7 +27,7 @@
       "referencia": {
         "salida": "2027-03-01",
         "regreso": "2027-03-18",
-        "origen": "calendario"
+        "origen": "guardada"
       },
       "fuente_en_vivo": "serpapi"
     },
@@ -38,7 +38,7 @@
       "referencia": {
         "salida": "2027-03-05",
         "regreso": "2027-03-22",
-        "origen": "calendario"
+        "origen": "guardada"
       },
       "fuente_en_vivo": "serpapi"
     },
@@ -49,7 +49,7 @@
       "referencia": {
         "salida": "2027-03-07",
         "regreso": "2027-03-24",
-        "origen": "calendario"
+        "origen": "guardada"
       },
       "fuente_en_vivo": "serpapi"
     }
