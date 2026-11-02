@@ -1,0 +1,48 @@
+{
+  "viaje_id": "scl-mad-2027-03",
+  "observaciones": [
+    {
+      "capturado": "2026-11-02T17:47:21Z",
+      "fuente": "serpapi",
+      "salida": "2027-03-05",
+      "regreso": "2027-03-22",
+      "origen": "SCL",
+      "destino": "MAD",
+      "precio": {
+        "monto": 682.0,
+        "moneda": "USD",
+        "clp": 675753
+      },
+      "escalas": 1,
+      "duracion_min": 1035,
+      "aerolineas": [
+        "Avianca"
+      ],
+      "self_transfer": false,
+      "tramos": [
+        {
+          "origen": "SCL",
+          "destino": "BOG",
+          "salida": "2027-03-05 02:10",
+          "llegada": "2027-03-05 06:15",
+          "aerolinea": "Avianca",
+          "vuelo": "AV 240"
+        },
+        {
+          "origen": "BOG",
+          "destino": "MAD",
+          "salida": "2027-03-05 07:50",
+          "llegada": "2027-03-05 23:25",
+          "aerolinea": "Avianca",
+          "vuelo": "AV 46"
+        }
+      ],
+      "enlace": "https://www.google.com/travel/flights?hl=es&gl=cl&curr=USD&tfs=CBwQAhoeEgoyMDI3LTAzLTA1agcIARIDU0NMcgcIARIDTUFEGh4SCjIwMjctMDMtMjJqBwgBEgNNQURyBwgBEgNTQ0xAAUgBcAGYAQE&tfu=EgIIAQ",
+      "nivel": "typical",
+      "rango_tipico": [
+        680,
+        1000
+      ]
+    }
+  ]
+}

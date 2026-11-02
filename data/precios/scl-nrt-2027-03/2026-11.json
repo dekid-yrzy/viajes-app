@@ -21,6 +21,58 @@
       "self_transfer": false,
       "tramos": [],
       "enlace": "https://www.aviasales.com/search/SCL1503NRT31031?t=LA18051153001805267100001810SCLAKLNRT18065247001806578400001615NRTMELSCL_fe37ac1b0d26baa6cae5c0a7e2518da8_152206&search_date=28102026&expected_price_uuid=01a184d0-3bd3-8031-664d-83241c7436e2&static_fare_key=TY%7CP0%7CH0%7CL1_1_0%7CCH1%7CR1%7CTBC1&itinerary_key=KZnpm8tmmgE8W5Esiw1CbA&origin_airports=1&destination_airports=0&expected_price_source=share&expected_price_currency=usd&expected_price=1891"
+    },
+    {
+      "capturado": "2026-11-02T17:47:21Z",
+      "fuente": "serpapi",
+      "salida": "2027-03-07",
+      "regreso": "2027-03-24",
+      "origen": "SCL",
+      "destino": "NRT",
+      "precio": {
+        "monto": 1692.0,
+        "moneda": "USD",
+        "clp": 1676501
+      },
+      "escalas": 2,
+      "duracion_min": 2605,
+      "aerolineas": [
+        "Air France",
+        "Korean Air"
+      ],
+      "self_transfer": false,
+      "tramos": [
+        {
+          "origen": "SCL",
+          "destino": "CDG",
+          "salida": "2027-03-07 12:05",
+          "llegada": "2027-03-08 05:55",
+          "aerolinea": "Air France",
+          "vuelo": "AF 401"
+        },
+        {
+          "origen": "CDG",
+          "destino": "ICN",
+          "salida": "2027-03-08 15:05",
+          "llegada": "2027-03-09 11:15",
+          "aerolinea": "Air France",
+          "vuelo": "AF 264"
+        },
+        {
+          "origen": "ICN",
+          "destino": "NRT",
+          "salida": "2027-03-09 16:55",
+          "llegada": "2027-03-09 19:30",
+          "aerolinea": "Korean Air",
+          "vuelo": "KE 713"
+        }
+      ],
+      "enlace": "https://www.google.com/travel/flights?hl=es&gl=cl&curr=USD&tfs=CBwQAhoeEgoyMDI3LTAzLTA3agcIARIDU0NMcgcIARIDTlJUGh4SCjIwMjctMDMtMjRqBwgBEgNOUlRyBwgBEgNTQ0xAAUgBcAGYAQE&tfu=EgIIAQ",
+      "nivel": "typical",
+      "rango_tipico": [
+        1500,
+        2250
+      ]
     }
   ]
 }

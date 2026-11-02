@@ -1,27 +1,57 @@
 {
-  "ultima_corrida": "2026-11-02T17:20:57Z",
+  "ultima_corrida": "2026-11-02T17:47:21Z",
   "tipos_cambio": "er-api",
   "fuentes": {
     "travelpayouts": {
       "estado": "ok",
       "detalle": ""
+    },
+    "serpapi": {
+      "estado": "ok",
+      "detalle": ""
+    },
+    "fast_flights": {
+      "estado": "ok",
+      "detalle": ""
     }
+  },
+  "serpapi_uso": {
+    "mes": "2026-11",
+    "usadas": 3
   },
   "viajes": {
     "scl-fra-2027-03": {
       "ofertas": 0,
       "fechas_con_precio": 0,
-      "fechas_posibles": 31
+      "fechas_posibles": 31,
+      "referencia": {
+        "salida": "2027-03-01",
+        "regreso": "2027-03-18",
+        "origen": "calendario"
+      },
+      "fuente_en_vivo": "serpapi"
     },
     "scl-mad-2027-03": {
       "ofertas": 0,
       "fechas_con_precio": 0,
-      "fechas_posibles": 31
+      "fechas_posibles": 31,
+      "referencia": {
+        "salida": "2027-03-05",
+        "regreso": "2027-03-22",
+        "origen": "calendario"
+      },
+      "fuente_en_vivo": "serpapi"
     },
     "scl-nrt-2027-03": {
       "ofertas": 1,
       "fechas_con_precio": 1,
-      "fechas_posibles": 31
+      "fechas_posibles": 31,
+      "referencia": {
+        "salida": "2027-03-07",
+        "regreso": "2027-03-24",
+        "origen": "calendario"
+      },
+      "fuente_en_vivo": "serpapi"
     }
   },
   "errores": []

@@ -1,0 +1,194 @@
+{
+  "generado": "2026-11-02T17:47:21Z",
+  "estadia_dias": 17,
+  "completo": true,
+  "fechas": {
+    "2027-03-01": {
+      "regreso": "2027-03-18",
+      "monto": 966.0,
+      "clp": 957151,
+      "nivel": "typical"
+    },
+    "2027-03-02": {
+      "regreso": "2027-03-19",
+      "monto": 968.0,
+      "clp": 959133,
+      "nivel": "typical"
+    },
+    "2027-03-03": {
+      "regreso": "2027-03-20",
+      "monto": 1106.0,
+      "clp": 1095869,
+      "nivel": "typical"
+    },
+    "2027-03-04": {
+      "regreso": "2027-03-21",
+      "monto": 968.0,
+      "clp": 959133,
+      "nivel": "typical"
+    },
+    "2027-03-05": {
+      "regreso": "2027-03-22",
+      "monto": 984.0,
+      "clp": 974987,
+      "nivel": "typical"
+    },
+    "2027-03-06": {
+      "regreso": "2027-03-23",
+      "monto": 966.0,
+      "clp": 957151,
+      "nivel": "typical"
+    },
+    "2027-03-07": {
+      "regreso": "2027-03-24",
+      "monto": 992.0,
+      "clp": 982913,
+      "nivel": "typical"
+    },
+    "2027-03-08": {
+      "regreso": "2027-03-25",
+      "monto": 966.0,
+      "clp": 957151,
+      "nivel": "typical"
+    },
+    "2027-03-09": {
+      "regreso": "2027-03-26",
+      "monto": 971.0,
+      "clp": 962106,
+      "nivel": "typical"
+    },
+    "2027-03-10": {
+      "regreso": "2027-03-27",
+      "monto": 1071.0,
+      "clp": 1061190,
+      "nivel": "typical"
+    },
+    "2027-03-11": {
+      "regreso": "2027-03-28",
+      "monto": 1022.0,
+      "clp": 1012638,
+      "nivel": "typical"
+    },
+    "2027-03-12": {
+      "regreso": "2027-03-29",
+      "monto": 1033.0,
+      "clp": 1023538,
+      "nivel": "typical"
+    },
+    "2027-03-13": {
+      "regreso": "2027-03-30",
+      "monto": 1102.0,
+      "clp": 1091906,
+      "nivel": "typical"
+    },
+    "2027-03-14": {
+      "regreso": "2027-03-31",
+      "monto": 1055.0,
+      "clp": 1045336,
+      "nivel": "typical"
+    },
+    "2027-03-15": {
+      "regreso": "2027-04-01",
+      "monto": 1033.0,
+      "clp": 1023538,
+      "nivel": "typical"
+    },
+    "2027-03-16": {
+      "regreso": "2027-04-02",
+      "monto": 1027.0,
+      "clp": 1017593,
+      "nivel": "typical"
+    },
+    "2027-03-17": {
+      "regreso": "2027-04-03",
+      "monto": 1138.0,
+      "clp": 1127576,
+      "nivel": "typical"
+    },
+    "2027-03-18": {
+      "regreso": "2027-04-04",
+      "monto": 1098.0,
+      "clp": 1087942,
+      "nivel": "typical"
+    },
+    "2027-03-19": {
+      "regreso": "2027-04-05",
+      "monto": 1050.0,
+      "clp": 1040382,
+      "nivel": "typical"
+    },
+    "2027-03-20": {
+      "regreso": "2027-04-06",
+      "monto": 1182.0,
+      "clp": 1171173,
+      "nivel": "typical"
+    },
+    "2027-03-21": {
+      "regreso": "2027-04-07",
+      "monto": 1076.0,
+      "clp": 1066144,
+      "nivel": "typical"
+    },
+    "2027-03-22": {
+      "regreso": "2027-04-08",
+      "monto": 1098.0,
+      "clp": 1087942,
+      "nivel": "typical"
+    },
+    "2027-03-23": {
+      "regreso": "2027-04-09",
+      "monto": 1073.0,
+      "clp": 1063171,
+      "nivel": "typical"
+    },
+    "2027-03-24": {
+      "regreso": "2027-04-10",
+      "monto": 1115.0,
+      "clp": 1104787,
+      "nivel": "typical"
+    },
+    "2027-03-25": {
+      "regreso": "2027-04-11",
+      "monto": 1158.0,
+      "clp": 1147393,
+      "nivel": "typical"
+    },
+    "2027-03-26": {
+      "regreso": "2027-04-12",
+      "monto": 1102.0,
+      "clp": 1091906,
+      "nivel": "typical"
+    },
+    "2027-03-27": {
+      "regreso": "2027-04-13",
+      "monto": 1102.0,
+      "clp": 1091906,
+      "nivel": "typical"
+    },
+    "2027-03-28": {
+      "regreso": "2027-04-14",
+      "monto": 1114.0,
+      "clp": 1103796,
+      "nivel": "typical"
+    },
+    "2027-03-29": {
+      "regreso": "2027-04-15",
+      "monto": 1118.0,
+      "clp": 1107759,
+      "nivel": "typical"
+    },
+    "2027-03-30": {
+      "regreso": "2027-04-16",
+      "monto": 1233.0,
+      "clp": 1221706,
+      "nivel": "typical"
+    },
+    "2027-03-31": {
+      "regreso": "2027-04-17",
+      "monto": 1183.0,
+      "clp": 1172164,
+      "nivel": "typical"
+    }
+  },
+  "errores": 0
+}
