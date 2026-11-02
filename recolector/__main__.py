@@ -102,7 +102,10 @@ def ejecutar(
                 try:
                     obs, puntos = serpapi.consultar(viaje, salida, regreso, get_json, clave_serpapi, capturado, tasas)
                     if obs:
-                        escribir_json(ruta_google, {"salida": salida, "regreso": regreso, "actualizado": capturado, "puntos": puntos})
+                        # Google solo entrega 61 días: se acumulan para no olvidar mínimos más antiguos
+                        acumulados = dict(anterior.get("puntos") or []) if (anterior.get("salida"), anterior.get("regreso")) == (salida, regreso) else {}
+                        acumulados.update(dict(puntos))
+                        escribir_json(ruta_google, {"salida": salida, "regreso": regreso, "actualizado": capturado, "puntos": sorted([list(p) for p in acumulados.items()])})
                 except Exception as e:
                     traceback.print_exc()
                     registrar("serpapi", vid, str(e))
@@ -172,7 +175,14 @@ def ejecutar(
                 serie = alertas.serie_en_vivo(historial, observaciones, ref["salida"], ref["regreso"])
             obs_hoy = [o for o in observaciones if o["capturado"][:10] == hoy_iso]
             candidatas += alertas.evaluar(viaje, hoy_iso, obs_hoy, serie, ajustes, tasas)
-        nuevas = alertas.suprimir(candidatas, previas, hoy_iso)
+        entorno_ = entorno or {}
+        hay_canal = bool(
+            (entorno_.get("TELEGRAM_BOT_TOKEN") and entorno_.get("TELEGRAM_CHAT_ID"))
+            or (entorno_.get("SMTP_USER") and entorno_.get("SMTP_PASSWORD") and entorno_.get("EMAIL_DESTINO"))
+        )
+        # una alerta que quedó solo en la app (canales caídos o sin configurar) se reintenta cuando hay un canal
+        previas_vigentes = [p for p in previas if not (hay_canal and p.get("canales_enviados") == ["app"])]
+        nuevas = alertas.suprimir(candidatas, previas_vigentes, hoy_iso)
         if nuevas:
             canales = ["app"]
             if entorno is not None:

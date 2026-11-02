@@ -124,6 +124,13 @@ class TestEjecutarEnVivo(unittest.TestCase):
         estado = ejecutar(self.raiz, get_falso("prohibido"), AHORA, CLAVES, buscar=Buscar(falla=True), pausa=0)
         self.assertIn("bloqueado", estado["fuentes"]["fast_flights"]["detalle"])
 
+    def test_historial_google_acumula_puntos_viejos_de_la_misma_referencia(self):
+        escribir_json(self.raiz / f"data/calendario/{ID}.json", {"generado": "2026-11-01T11:00:00Z", "completo": True, "estadia_dias": 17, "fechas": {"2027-03-09": {"regreso": "2027-03-26", "monto": 850.0, "clp": None, "nivel": "low"}}, "errores": 0})
+        escribir_json(self.raiz / f"data/historial_google/{ID}.json", {"salida": "2027-03-09", "regreso": "2027-03-26", "actualizado": "2026-11-01T11:00:00Z", "puntos": [["2026-08-01", 500], ["2026-09-03", 1]]})
+        ejecutar(self.raiz, get_falso(), AHORA, CLAVES, buscar=Buscar(), pausa=0)
+        puntos = dict(leer_json(self.raiz / f"data/historial_google/{ID}.json", None)["puntos"])
+        self.assertEqual((puntos["2026-08-01"], puntos["2026-09-03"], len(puntos)), (500, 964, 4))
+
     def test_clave_serpapi_no_aparece_en_estado(self):
         estado = ejecutar(self.raiz, get_falso("error"), AHORA, {"travelpayouts": "t", "serpapi": "CLAVE-SECRETA"}, buscar=Buscar(), pausa=0)
         self.assertNotIn("CLAVE-SECRETA", json.dumps(estado))

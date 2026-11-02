@@ -72,11 +72,15 @@ class TestAlertas(unittest.TestCase):
         self.assertFalse(tipos(evaluar(SIN_UMBRAL, HOY, [], serie, AJUSTES, TASAS), "caida_pct"))
 
     def test_minimo_historico_requiere_14_previos(self):
-        serie = serie_plana(14, 1000) + [(HOY, 999)]
+        serie = serie_plana(14, 1000) + [(HOY, 980)]
         self.assertTrue(tipos(evaluar(SIN_UMBRAL, HOY, [], serie, AJUSTES, TASAS), "minimo_historico"))
-        serie = serie_plana(13, 1000) + [(HOY, 999)]
+        serie = serie_plana(13, 1000) + [(HOY, 980)]
         self.assertFalse(tipos(evaluar(SIN_UMBRAL, HOY, [], serie, AJUSTES, TASAS), "minimo_historico"))
         serie = serie_plana(14, 1000) + [(HOY, 1000)]
+        self.assertFalse(tipos(evaluar(SIN_UMBRAL, HOY, [], serie, AJUSTES, TASAS), "minimo_historico"))
+
+    def test_minimo_historico_exige_bajar_2_por_ciento(self):
+        serie = serie_plana(30, 1700) + [(HOY, 1690)]  # −0,6 %: ruido de una ruta que va bajando
         self.assertFalse(tipos(evaluar(SIN_UMBRAL, HOY, [], serie, AJUSTES, TASAS), "minimo_historico"))
 
     def test_sin_punto_de_hoy_no_evalua_tendencia(self):

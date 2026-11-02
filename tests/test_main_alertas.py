@@ -80,6 +80,19 @@ class TestEjecutarAlertas(unittest.TestCase):
         estado = self.correr(post)
         self.assertEqual((estado["alertas_nuevas"], post.llamadas, self.alertas()), (0, 0, []))
 
+    def test_alerta_que_no_se_pudo_notificar_se_reintenta(self):
+        self.correr(Post(), entorno={})  # primera corrida sin secretos: queda solo en la app
+        self.assertEqual(self.alertas()[0]["canales_enviados"], ["app"])
+        post = Post()
+        estado = self.correr(post, ahora=AHORA + timedelta(hours=1))
+        self.assertEqual((post.llamadas, estado["alertas_nuevas"]), (1, 1))
+        self.assertEqual(self.alertas()[-1]["canales_enviados"], ["telegram", "email", "app"])
+
+    def test_alerta_solo_app_no_se_duplica_sin_canales(self):
+        self.correr(Post(), entorno={})
+        estado = self.correr(Post(), ahora=AHORA + timedelta(hours=1), entorno={})
+        self.assertEqual((estado["alertas_nuevas"], len(self.alertas())), (0, 1))
+
     def test_alertas_se_recortan_a_200(self):
         escribir_json(self.raiz / "data/alertas.json", {"alertas": [{"viaje_id": "x", "tipo": "umbral", "fecha": "2026-01-01T00:00:00Z", "precio_usd": 1} for _ in range(205)]})
         self.correr(Post())

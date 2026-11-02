@@ -4,6 +4,7 @@ from datetime import date, timedelta
 
 MESES = ["ene", "feb", "mar", "abr", "may", "jun", "jul", "ago", "sept", "oct", "nov", "dic"]
 EN_VIVO = ("serpapi", "fast_flights")
+MARGEN_MINIMO = 0.02  # un "nuevo mínimo" por US$1 en una ruta que va bajando sería spam
 
 
 def clp(valor: int | None) -> str:
@@ -88,7 +89,7 @@ def evaluar(viaje: dict, hoy: str, obs_hoy: list[dict], serie: list[tuple[str, f
             ))
     if len(previos) >= ajustes.get("min_observaciones_percentil", 14):
         minimo = min(v for _, v in previos)
-        if precio < minimo:
+        if precio <= minimo * (1 - MARGEN_MINIMO):
             alertas.append(_alerta(
                 viaje, "minimo_historico", "en_vivo", precio, a_clp(precio), minimo, a_clp(minimo), salida, regreso,
                 f"Nuevo mínimo histórico: {usd(precio)} (antes {usd(minimo)}, {len(previos)} días de historia)",
