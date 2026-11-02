@@ -31,7 +31,7 @@ export function geometria(series, banda, ancho, alto, margen = MARGEN) {
   const x = escalaLineal([ms(fechas[0]), ms(fechas.at(-1))], [margen.izquierda, ancho - margen.derecha]);
   const y = escalaLineal([ticks[0], ticks.at(-1)], [alto - margen.abajo, margen.arriba]);
   const puntos = series.flatMap((s) =>
-    s.puntos.map((p) => ({ id: s.id, fecha: p.fecha, valor: p.valor, cx: redondear(x(ms(p.fecha))), cy: redondear(y(p.valor)) })),
+    s.puntos.map((p, i) => ({ id: s.id, fecha: p.fecha, valor: p.valor, ultimo: i === s.puntos.length - 1, cx: redondear(x(ms(p.fecha))), cy: redondear(y(p.valor)) })),
   );
   const rutas = series
     .filter((s) => s.puntos.length > 1)
@@ -75,7 +75,7 @@ export function dibujar(svg, geo, { formatoY, formatoX, etiquetaUltimo }) {
     nodo(svg, "line", { class: "mediana", x1: izquierda, x2: geo.ancho - derecha, y1: geo.banda.y50, y2: geo.banda.y50 });
   }
   for (const r of geo.rutas) nodo(svg, "path", { class: `linea serie-${r.id}`, d: r.d });
-  for (const p of geo.puntos) nodo(svg, "circle", { class: `punto serie-${p.id}`, cx: p.cx, cy: p.cy, r: 4 });
+  for (const p of geo.puntos) nodo(svg, "circle", { class: `punto serie-${p.id}${p.ultimo ? " ultimo" : ""}`, cx: p.cx, cy: p.cy, r: 4 });
   const ultimo = geo.puntos.filter((p) => p.id === geo.puntos[0]?.id).at(-1);
   if (ultimo && etiquetaUltimo) nodo(svg, "text", { class: "etiqueta-directa", x: ultimo.cx + 8, y: ultimo.cy, "dominant-baseline": "middle" }, etiquetaUltimo);
   return nodo(svg, "line", { class: "crosshair", y1: geo.margen.arriba, y2: geo.alto - abajo, x1: 0, x2: 0, visibility: "hidden" });

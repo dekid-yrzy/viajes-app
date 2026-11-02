@@ -16,6 +16,12 @@ export function percentil(valores, p) {
   return base + 1 < orden.length ? orden[base] + resto * (orden[base + 1] - orden[base]) : orden[base];
 }
 
+// Franja del gráfico: los mismos cuartiles en USD que decide la etiqueta, convertidos con una sola tasa.
+export function bandaConvertida(et, convertirUsd) {
+  if (et.clave === "sin_historia") return null;
+  return { p25: convertirUsd(et.p25), p50: convertirUsd(et.p50), p75: convertirUsd(et.p75) };
+}
+
 export function etiqueta(precio, historico, minimo = 14) {
   const p25 = percentil(historico, 0.25);
   const p50 = percentil(historico, 0.5);

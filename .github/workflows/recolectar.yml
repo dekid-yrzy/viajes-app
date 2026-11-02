@@ -13,6 +13,17 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
+  # Job aparte: un test del frontend que falla no debe frenar la recolección diaria.
+  frontend:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "24"
+      - run: node --test "tests/js/*.test.js"
+
   recolectar:
     runs-on: ubuntu-latest
     timeout-minutes: 30
@@ -25,8 +36,6 @@ jobs:
         run: pip install -r requirements.txt
       - name: Tests
         run: python -m unittest discover -s tests
-      - name: Tests del frontend
-        run: node --test "tests/js/*.test.js"
       - name: Recolector
         run: python -m recolector
         env:

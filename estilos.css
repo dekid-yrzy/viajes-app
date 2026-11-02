@@ -112,7 +112,7 @@ a { color: inherit; }
 .linea { fill: none; stroke-width: 2; stroke-linejoin: round; stroke-linecap: round; }
 .linea.serie-google { stroke: var(--series-1); }
 .punto { stroke: var(--superficie); stroke-width: 2; }
-.punto.serie-google { display: none; } /* 60+ puntos diarios: la línea basta; el último lleva etiqueta directa */
+.punto.serie-google:not(.ultimo) { display: none; } /* 60+ puntos diarios: la línea basta; el último lleva etiqueta directa */
 .punto.serie-tp { fill: var(--series-2); }
 .etiqueta-directa { fill: var(--tinta); font-size: 12px; font-weight: 600; }
 .crosshair { stroke: var(--tinta-3); stroke-width: 1; pointer-events: none; }

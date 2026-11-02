@@ -37,3 +37,11 @@ test("geometria sin datos no rompe", () => {
   const geo = geometria([{ id: "google", puntos: [] }], null, 400, 200);
   assert.deepEqual([geo.rutas, geo.puntos, geo.banda], [[], [], null]);
 });
+
+test("geometria marca el último punto de cada serie (visible aunque la serie tenga un solo punto)", () => {
+  const geo = geometria([{ id: "google", puntos: [{ fecha: "2026-11-02", valor: 900 }] }], null, 400, 200);
+  assert.equal(geo.rutas.length, 0);
+  assert.deepEqual(geo.puntos.map((p) => p.ultimo), [true]);
+  const dos = geometria([{ id: "google", puntos: [{ fecha: "2026-11-01", valor: 900 }, { fecha: "2026-11-02", valor: 950 }] }], null, 400, 200);
+  assert.deepEqual(dos.puntos.map((p) => p.ultimo), [false, true]);
+});

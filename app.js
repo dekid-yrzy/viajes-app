@@ -1,5 +1,5 @@
 import { convertir, costoTotalClp, mesesDesde, serieGoogle, serieTravelpayouts, tasaPara, ventana } from "./js/datos.js";
-import { ETIQUETAS, etiqueta } from "./js/estadistica.js";
+import { ETIQUETAS, bandaConvertida, etiqueta } from "./js/estadistica.js";
 import { fechaCorta, fechaHora, moneda as formatoMoneda } from "./js/formato.js";
 import { conTooltip, dibujar, geometria } from "./js/grafico.js";
 
@@ -165,11 +165,7 @@ function panelGrafico(datos, r, ctx) {
     { id: "google", puntos: datos.google.map((p) => ({ fecha: p.fecha, valor: valor(p) })).filter((p) => p.valor != null) },
     { id: "tp", puntos: datos.tp.map((p) => ({ fecha: p.fecha, valor: valor(p) })).filter((p) => p.valor != null) },
   ];
-  const banda = r.et.clave === "sin_historia" ? null : (() => {
-    const base = ventana(datos.google, 90).map(valor).filter((v) => v != null);
-    const e = etiqueta(0, base, 0);
-    return { p25: e.p25, p50: e.p50, p75: e.p75 };
-  })();
+  const banda = bandaConvertida(r.et, (usd) => convertir(usd, ctx.moneda, r.tasaHoy));
 
   const leyenda = el("ul", "leyenda");
   for (const s of series.filter((s) => s.puntos.length)) {
