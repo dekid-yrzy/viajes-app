@@ -445,7 +445,6 @@ function renderFormulario(original) {
   const volver = el("a", "volver", "← Ajustes");
   volver.href = "#/ajustes";
   const general = el("p", "aviso");
-  general.setAttribute("role", "alert");
   const form = el("form", "formulario");
   form.noValidate = true;
   const valores = aFormulario(original, cache.ajustes);
@@ -506,11 +505,19 @@ function renderFormulario(original) {
     sinToken.append(ir, document.createTextNode(" para poder guardar."));
     form.append(sinToken);
   }
-  form.append(guardar);
+  // El resultado va junto al botón: en el celular, lo de arriba del formulario queda fuera de la pantalla.
+  const estadoGuardar = el("p", "aviso estado-guardar");
+  estadoGuardar.setAttribute("role", "alert");
+  const mostrar = (texto) => {
+    general.textContent = texto;
+    estadoGuardar.textContent = texto;
+    if (texto) estadoGuardar.scrollIntoView({ block: "nearest" });
+  };
+  form.append(guardar, estadoGuardar);
 
   form.addEventListener("submit", async (evento) => {
     evento.preventDefault();
-    general.textContent = "";
+    mostrar("");
     const leidos = Object.fromEntries(Object.entries(controles).map(([n, c]) => [n, c.type === "checkbox" ? c.checked : c.value]));
     const { viaje, errores, reemplaza } = validar(leidos, { existentes: cache.todos, original, hoy: new Date().toISOString().slice(0, 10) });
     for (const [nombre, { error }] of Object.entries(filas)) {
@@ -526,7 +533,7 @@ function renderFormulario(original) {
     }
     if (!viaje) {
       const primero = Object.keys(filas).find((n) => errores[n]);
-      general.textContent = "Revisa los campos marcados.";
+      mostrar("Revisa los campos marcados.");
       controles[primero]?.focus();
       return;
     }
@@ -540,7 +547,7 @@ function renderFormulario(original) {
       setTimeout(() => vista.prepend(aviso("Guardado. El recolector lo tomará en la próxima corrida diaria.")), 0);
     } catch (e) {
       // El formulario no se limpia: lo escrito se conserva para reintentar.
-      general.textContent = e instanceof ErrorGithub ? e.mensaje : "No se pudo guardar.";
+      mostrar(e instanceof ErrorGithub ? e.mensaje : "No se pudo guardar.");
       guardar.disabled = false;
       guardar.textContent = "Guardar";
     }
