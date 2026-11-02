@@ -1,16 +1,18 @@
 """Corrida diaria: tipos de cambio, precios por viaje activo y estado."""
 import os
+import smtplib
 import sys
 import traceback
 from datetime import datetime, timezone
 from pathlib import Path
 
-from recolector import red, tipos_cambio
+from recolector import alertas, notificar, red, tipos_cambio
 from recolector.almacen import agregar_observacion, escribir_json, leer_json
 from recolector.fuentes import google_flights, serpapi, travelpayouts
 from recolector.referencias import calendario_vencido, fechas_referencia, uso_serpapi
 
 MAX_ERRORES = 20
+MAX_ALERTAS = 200
 
 
 def _leer_tolerante(ruta: Path, defecto):
@@ -21,7 +23,10 @@ def _leer_tolerante(ruta: Path, defecto):
         return defecto
 
 
-def ejecutar(raiz: Path, get_json, ahora: datetime, claves: dict, buscar=None, pausa: float = 2.0) -> dict:
+def ejecutar(
+    raiz: Path, get_json, ahora: datetime, claves: dict, buscar=None, pausa: float = 2.0,
+    entorno: dict | None = None, post_json=None, smtp_factory=None,
+) -> dict:
     raiz = Path(raiz)
     hoy = ahora.date()
     capturado = ahora.astimezone(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
@@ -144,12 +149,52 @@ def ejecutar(raiz: Path, get_json, ahora: datetime, claves: dict, buscar=None, p
         if info:
             resumen[vid] = info
 
+    nuevas = []
+    sin_envio = {"estado": "sin_alertas" if entorno is not None else "desactivado", "detalle": ""}
+    fuentes["telegram"], fuentes["email"] = dict(sin_envio), dict(sin_envio)
+    try:
+        ruta_alertas = raiz / "data/alertas.json"
+        previas = _leer_tolerante(ruta_alertas, {}).get("alertas", [])
+        hoy_iso = hoy.isoformat()
+        candidatas, por_id = [], {}
+        for viaje in viajes:
+            vid = viaje.get("id")
+            if not viaje.get("activo") or vid not in resumen:
+                continue
+            por_id[vid] = viaje
+            observaciones = []
+            for archivo in sorted((raiz / "data/precios" / vid).glob("*.json")):
+                observaciones += _leer_tolerante(archivo, {}).get("observaciones", [])
+            ref = resumen[vid].get("referencia")
+            serie = []
+            if ref:
+                historial = _leer_tolerante(raiz / f"data/historial_google/{vid}.json", None)
+                serie = alertas.serie_en_vivo(historial, observaciones, ref["salida"], ref["regreso"])
+            obs_hoy = [o for o in observaciones if o["capturado"][:10] == hoy_iso]
+            candidatas += alertas.evaluar(viaje, hoy_iso, obs_hoy, serie, ajustes, tasas)
+        nuevas = alertas.suprimir(candidatas, previas, hoy_iso)
+        if nuevas:
+            canales = ["app"]
+            if entorno is not None:
+                texto = alertas.mensaje(nuevas, por_id, ajustes.get("url_publica", ""))
+                envio = notificar.enviar(texto, f"Viajes: {len(nuevas)} alerta(s) de precio", entorno, post_json, smtp_factory)
+                fuentes.update(envio)
+                canales = [c for c in ("telegram", "email") if envio[c]["estado"] == "ok"] + canales
+            for a in nuevas:
+                a.update({"id": f"{a['viaje_id']}-{a['tipo']}-{capturado}", "fecha": capturado, "canales_enviados": canales})
+            escribir_json(ruta_alertas, {"alertas": (previas + nuevas)[-MAX_ALERTAS:]})
+    except Exception as e:  # una alerta rota no debe perder los precios ya guardados
+        traceback.print_exc()
+        registrar("alertas", None, f"{type(e).__name__}: {e}")
+        nuevas = []
+
     estado = {
         "ultima_corrida": capturado,
         "tipos_cambio": fuente_tasas,
         "fuentes": fuentes,
         "serpapi_uso": uso,
         "viajes": resumen,
+        "alertas_nuevas": len(nuevas),
         "errores": errores[-MAX_ERRORES:],
     }
     escribir_json(raiz / "data/estado.json", estado)
@@ -159,12 +204,16 @@ def ejecutar(raiz: Path, get_json, ahora: datetime, claves: dict, buscar=None, p
 def main() -> int:
     claves = {"travelpayouts": os.environ.get("TRAVELPAYOUTS_TOKEN"), "serpapi": os.environ.get("SERPAPI_KEY")}
     buscar = None if os.environ.get("DESACTIVAR_FAST_FLIGHTS") == "1" else google_flights.buscar
-    estado = ejecutar(Path.cwd(), red.get_json, datetime.now(timezone.utc), claves, buscar=buscar)
+    estado = ejecutar(
+        Path.cwd(), red.get_json, datetime.now(timezone.utc), claves, buscar=buscar,
+        entorno=dict(os.environ), post_json=red.post_json, smtp_factory=smtplib.SMTP_SSL,
+    )
     print(f"Tipos de cambio: {estado['tipos_cambio']} · SerpApi: {estado['serpapi_uso']['usadas']} usadas en {estado['serpapi_uso']['mes']}")
     for nombre, fuente in estado["fuentes"].items():
         print(f"  {nombre}: {fuente['estado']} {fuente['detalle']}")
     for viaje_id, info in estado["viajes"].items():
         print(f"{viaje_id}: {info}")
+    print(f"Alertas nuevas: {estado['alertas_nuevas']}")
     return 0
 
 
