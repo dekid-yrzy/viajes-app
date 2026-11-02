@@ -8,6 +8,7 @@ const MENSAJES = {
   permiso: "El token no tiene acceso de escritura a este repo.",
   red: "No se pudo conectar con GitHub. Revisa tu conexión e inténtalo de nuevo.",
   otro: "GitHub respondió con un error inesperado. Inténtalo de nuevo más tarde.",
+  formato: "El archivo de viajes en GitHub no tiene el formato esperado. No se guardó nada.",
 };
 
 export class ErrorGithub extends Error {

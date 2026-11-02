@@ -60,3 +60,10 @@ class TestReferenciasRobustez(unittest.TestCase):
         ahora = datetime(2026, 11, 3, tzinfo=timezone.utc)
         self.assertTrue(calendario_vencido({"generado": "2026-11-02T11:05:00Z", "completo": False}, ahora))
         self.assertFalse(calendario_vencido({"generado": "2026-11-02T11:05:00Z", "completo": True}, ahora))
+
+
+class TestReferenciaFueraDeVentana(unittest.TestCase):
+    def test_referencia_guardada_fuera_de_las_fechas_del_viaje_se_ignora(self):
+        v = {**VIAJE, "fechas": {"modo": "mes", "mes": "2027-05"}}
+        guardadas = {VIAJE["id"]: {"salida": "2027-03-09", "regreso": "2027-03-26"}}
+        self.assertIsNone(fechas_referencia(v, guardadas, None, HOY))

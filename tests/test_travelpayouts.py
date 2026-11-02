@@ -121,3 +121,10 @@ class TestOfertasRobustez(unittest.TestCase):
         ]
         lista = ofertas(resp, VIAJE, HOY, "x", None)
         self.assertEqual([o["precio"]["monto"] for o in lista], [1043.2])
+
+
+class TestFijaSinEstadia(unittest.TestCase):
+    def test_fija_ida_vuelta_sin_estadia_dias_no_pierde_ofertas(self):
+        v = {k: x for k, x in VIAJE.items() if k != "estadia_dias"} | {"fechas": {"modo": "fija", "salida": "2027-03-08", "regreso": "2027-03-24"}}
+        lista = ofertas(fixture("travelpayouts_mes.json"), v, HOY, "x", None)
+        self.assertEqual([o["salida"] for o in lista], ["2027-03-08"])

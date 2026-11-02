@@ -78,10 +78,11 @@ def _normalizar(item: dict, viaje: dict, hoy: date, capturado: str, tasas: dict 
     if ida_vuelta:
         if regreso is None:
             return None
-        estadia = (date.fromisoformat(regreso) - d_salida).days
-        minimo, maximo = viaje["estadia_dias"]
-        if viaje["fechas"]["modo"] != "fija" and not minimo <= estadia <= maximo:
-            return None
+        if viaje["fechas"]["modo"] != "fija":  # un viaje de fechas fijas no trae estadia_dias
+            estadia = (date.fromisoformat(regreso) - d_salida).days
+            minimo, maximo = viaje["estadia_dias"]
+            if not minimo <= estadia <= maximo:
+                return None
     monto = round(precio * viaje["pasajeros"], 2)
     return {
         "capturado": capturado,

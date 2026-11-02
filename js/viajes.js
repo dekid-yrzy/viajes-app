@@ -129,9 +129,16 @@ export function validar(v, { existentes, original, hoy }) {
     if (!e.ref_salida && !e.ref_regreso) referencia = { salida: v.ref_salida, ...(idaVuelta ? { regreso: v.ref_regreso } : {}) };
   }
 
-  if (Object.keys(e).length) return { viaje: null, errores: e };
+  if (Object.keys(e).length) return { viaje: null, errores: e, reemplaza: null };
+  // Cambiar ruta, tipo, fechas o pasajeros cambia qué se rastrea y el monto total: es otro viaje con historial propio.
+  const reemplaza =
+    original &&
+    (original.origen !== origen || original.destino !== destino || original.tipo !== tipo || original.pasajeros !== pasajeros ||
+      JSON.stringify(original.fechas) !== JSON.stringify(fechas))
+      ? original.id
+      : null;
   const viaje = {
-    id: original ? original.id : idSugerido(origen, destino, fechas, existentes),
+    id: original && !reemplaza ? original.id : idSugerido(origen, destino, fechas, existentes),
     activo: v.activo !== false,
     origen,
     destino,
@@ -149,11 +156,24 @@ export function validar(v, { existentes, original, hoy }) {
   const resultado = { ...(original ?? {}), ...viaje };
   if (!estadia) delete resultado.estadia_dias;
   if (!referencia) delete resultado.referencia;
-  return { viaje: resultado, errores: {} };
+  return { viaje: resultado, errores: {}, reemplaza };
 }
 
 export function aplicar(lista, viaje, idOriginal) {
   return idOriginal && lista.some((v) => v.id === idOriginal) ? lista.map((v) => (v.id === idOriginal ? viaje : v)) : [...lista, viaje];
+}
+
+// Aplica un guardado sobre la lista recién leída de GitHub (no sobre la de la página, que puede estar vieja).
+export function guardarEnLista(lista, viaje, { reemplaza = null, idOriginal = null } = {}) {
+  const base = reemplaza ? cambiarActivo(lista, reemplaza, false) : lista;
+  if (idOriginal && !reemplaza) return aplicar(base, viaje, idOriginal);
+  const id = base.some((v) => v.id === viaje.id) ? idSugerido(viaje.origen, viaje.destino, viaje.fechas, base) : viaje.id;
+  return [...base, { ...viaje, id }];
+}
+
+export function viajesDe(datos) {
+  if (!datos || typeof datos !== "object" || !Array.isArray(datos.viajes)) throw new Error("config/viajes.json no tiene una lista «viajes»");
+  return datos.viajes;
 }
 
 export function cambiarActivo(lista, id, activo) {

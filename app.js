@@ -3,7 +3,7 @@ import { ETIQUETAS, bandaConvertida, etiqueta } from "./js/estadistica.js";
 import { fechaCorta, fechaHora, moneda as formatoMoneda } from "./js/formato.js";
 import { conTooltip, dibujar, geometria } from "./js/grafico.js";
 import { ErrorGithub, escribirArchivo, leerArchivo, probarToken, repoDesdeUbicacion } from "./js/github.js";
-import { aFormulario, aplicar, cambiarActivo, validar } from "./js/viajes.js";
+import { aFormulario, cambiarActivo, guardarEnLista, validar, viajesDe } from "./js/viajes.js";
 
 const vista = document.getElementById("vista");
 const selector = document.getElementById("moneda");
@@ -306,7 +306,13 @@ async function guardarLista(transformar, mensaje) {
   const cfg = configGithub();
   if (!cfg) throw new ErrorGithub("token");
   const { datos, sha } = await leerArchivo(cfg, RUTA_VIAJES);
-  const viajes = transformar(datos.viajes ?? []);
+  let actuales;
+  try {
+    actuales = viajesDe(datos);
+  } catch {
+    throw new ErrorGithub("formato"); // nunca reescribir un archivo raro con una lista parcial
+  }
+  const viajes = transformar(actuales);
   await escribirArchivo(cfg, RUTA_VIAJES, { ...datos, viajes }, sha, mensaje);
   // Pages tarda en publicar el cambio: la vista usa la lista recién escrita.
   cache.todos = viajes;
@@ -316,6 +322,7 @@ async function guardarLista(transformar, mensaje) {
       return previo ? { ...previo, viaje: v } : cargarViaje(v, cache.estado);
     }),
   );
+  return viajes;
 }
 
 function renderAjustes(mensajeLista = "") {
@@ -505,7 +512,7 @@ function renderFormulario(original) {
     evento.preventDefault();
     general.textContent = "";
     const leidos = Object.fromEntries(Object.entries(controles).map(([n, c]) => [n, c.type === "checkbox" ? c.checked : c.value]));
-    const { viaje, errores } = validar(leidos, { existentes: cache.todos, original, hoy: new Date().toISOString().slice(0, 10) });
+    const { viaje, errores, reemplaza } = validar(leidos, { existentes: cache.todos, original, hoy: new Date().toISOString().slice(0, 10) });
     for (const [nombre, { error }] of Object.entries(filas)) {
       const mensaje = errores[nombre] ?? "";
       error.textContent = mensaje;
@@ -526,9 +533,10 @@ function renderFormulario(original) {
     guardar.disabled = true;
     guardar.textContent = "Guardando…";
     try {
-      const accion = original ? "edita" : "crea";
-      await guardarLista((lista) => aplicar(lista, viaje, original?.id ?? null), `Viajes: ${accion} ${viaje.id}`);
-      location.hash = viaje.activo ? `#/viaje/${encodeURIComponent(viaje.id)}` : "#/ajustes";
+      const mensaje = reemplaza ? `Viajes: reemplaza ${reemplaza} por ${viaje.id}` : `Viajes: ${original ? "edita" : "crea"} ${viaje.id}`;
+      const lista = await guardarLista((l) => guardarEnLista(l, viaje, { reemplaza, idOriginal: original?.id ?? null }), mensaje);
+      const id = original && !reemplaza ? viaje.id : lista.at(-1).id;
+      location.hash = viaje.activo ? `#/viaje/${encodeURIComponent(id)}` : "#/ajustes";
       setTimeout(() => vista.prepend(aviso("Guardado. El recolector lo tomará en la próxima corrida diaria.")), 0);
     } catch (e) {
       // El formulario no se limpia: lo escrito se conserva para reintentar.
@@ -537,7 +545,8 @@ function renderFormulario(original) {
       guardar.textContent = "Guardar";
     }
   });
-  vista.replaceChildren(volver, el("h2", "ruta", titulo), general, form);
+  const nota = original ? el("p", "aviso", "Si cambias la ruta, el tipo, las fechas o los pasajeros se crea un viaje nuevo; el actual queda inactivo con su historial.") : null;
+  vista.replaceChildren(...[volver, el("h2", "ruta", titulo), nota, general, form].filter(Boolean));
 }
 
 let cache = null;
@@ -601,6 +610,7 @@ async function render() {
 selector.value = leerMoneda();
 selector.addEventListener("change", () => {
   guardarMoneda(selector.value);
+  if (/^#\/viaje\/(nuevo|.+\/editar)$/.test(location.hash)) return; // el formulario no usa moneda: no perder lo escrito
   render();
 });
 window.addEventListener("hashchange", () => {

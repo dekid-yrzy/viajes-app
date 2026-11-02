@@ -1,6 +1,6 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
-import { aFormulario, aplicar, cambiarActivo, idSugerido, validar } from "../../js/viajes.js";
+import { aFormulario, aplicar, cambiarActivo, guardarEnLista, idSugerido, validar, viajesDe } from "../../js/viajes.js";
 
 const HOY = "2026-11-02";
 const BASE = aFormulario(null, { origen_defecto: "SCL" });
@@ -50,9 +50,9 @@ test("editar conserva campos desconocidos, el id y permite fechas ya pasadas", (
     estadia_dias: [14, 21], pasajeros: 1, equipaje: { facturadas: 1, costo_estimado_clp: 60000 }, traslados_clp: 0, umbral_clp: null,
     permite_self_transfer: true, aeropuertos_alternativos: [], campo_futuro: 7,
   };
-  const { viaje, errores } = validar({ ...aFormulario(original, {}), pasajeros: "2" }, ctx({ existentes: [original], original }));
+  const { viaje, errores } = validar({ ...aFormulario(original, {}), umbral: "800000" }, ctx({ existentes: [original], original }));
   assert.deepEqual(errores, {});
-  assert.deepEqual([viaje.id, viaje.pasajeros, viaje.campo_futuro, viaje.umbral_clp], ["scl-fra-2026-09", 2, 7, null]);
+  assert.deepEqual([viaje.id, viaje.pasajeros, viaje.campo_futuro, viaje.umbral_clp], ["scl-fra-2026-09", 1, 7, 800000]);
 });
 
 test("referencia opcional dentro de la ventana", () => {
@@ -87,4 +87,35 @@ test("aplicar y cambiarActivo no mutan", () => {
   assert.deepEqual(aplicar(lista, { id: "a", x: 1 }, "a"), [{ id: "a", x: 1 }]);
   assert.equal(cambiarActivo(lista, "a", false)[0].activo, false);
   assert.equal(lista[0].activo, true);
+});
+
+const ORIGINAL = validar({ ...BASE, destino: "FRA", mes: "2027-03" }, ctx()).viaje;
+
+test("editar ruta, fechas, tipo o pasajeros crea un viaje nuevo que reemplaza al anterior", () => {
+  for (const cambio of [{ destino: "LIS" }, { mes: "2027-05" }, { pasajeros: "2" }, { tipo: "ida" }]) {
+    const r = validar({ ...aFormulario(ORIGINAL, {}), ...cambio }, ctx({ existentes: [ORIGINAL], original: ORIGINAL }));
+    assert.deepEqual(r.errores, {}, JSON.stringify(cambio));
+    assert.notEqual(r.viaje.id, ORIGINAL.id, JSON.stringify(cambio));
+    assert.equal(r.reemplaza, ORIGINAL.id);
+  }
+});
+
+test("editar umbral, equipaje o referencia conserva el id", () => {
+  const r = validar({ ...aFormulario(ORIGINAL, {}), umbral: "800000", costo_equipaje: "0", ref_salida: "2027-03-09", ref_regreso: "2027-03-26" }, ctx({ existentes: [ORIGINAL], original: ORIGINAL }));
+  assert.equal(r.viaje.id, ORIGINAL.id);
+  assert.equal(r.reemplaza, null);
+});
+
+test("guardarEnLista: desactiva el reemplazado, agrega el nuevo y evita ids repetidos contra la lista fresca", () => {
+  const otro = { id: "scl-lis-2027-03", activo: true };
+  const nuevo = { id: "scl-lis-2027-03", activo: true, origen: "SCL", destino: "LIS", fechas: { modo: "mes", mes: "2027-03" } };
+  const lista = guardarEnLista([ORIGINAL, otro], nuevo, { reemplaza: ORIGINAL.id });
+  assert.deepEqual(lista.map((v) => [v.id, v.activo]), [[ORIGINAL.id, false], ["scl-lis-2027-03", true], ["scl-lis-2027-03-2", true]]);
+  const editado = guardarEnLista([ORIGINAL], { ...ORIGINAL, umbral_clp: 1 }, { idOriginal: ORIGINAL.id });
+  assert.deepEqual(editado.map((v) => [v.id, v.umbral_clp]), [[ORIGINAL.id, 1]]);
+});
+
+test("viajesDe exige una lista; si el archivo remoto no tiene el formato esperado no se escribe", () => {
+  assert.deepEqual(viajesDe({ viajes: [] }), []);
+  for (const malo of [null, [], {}, { viajes: {} }]) assert.throws(() => viajesDe(malo));
 });

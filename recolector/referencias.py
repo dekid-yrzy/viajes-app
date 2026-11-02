@@ -1,14 +1,18 @@
 """Qué par de fechas sigue cada viaje a diario, cuándo rehacer el calendario y la cuota de SerpApi."""
 from datetime import date, datetime, timedelta
 
+from recolector.fuentes.travelpayouts import ventana
+
 
 def fechas_referencia(viaje: dict, guardadas: dict, calendario: dict | None, hoy: date) -> tuple[str, str | None, str] | None:
     fechas = viaje["fechas"]
     if fechas["modo"] == "fija":
         return fechas["salida"], fechas.get("regreso"), "fija"
     desde = hoy.isoformat()
+    inicio, fin = (d.isoformat() for d in ventana(viaje))
     for ref, origen in ((viaje.get("referencia"), "usuario"), (guardadas.get(viaje["id"]), "guardada")):
-        if ref and ref["salida"] >= desde:  # una referencia ya pasada no se consulta
+        # una referencia ya pasada, o de otras fechas (el viaje se editó), no se consulta
+        if ref and ref["salida"] >= desde and inicio <= ref["salida"] <= fin:
             return ref["salida"], ref.get("regreso"), origen
     if not (calendario or {}).get("completo"):
         return None  # un calendario parcial no debe fijar una referencia que luego no cambia
