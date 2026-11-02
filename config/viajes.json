@@ -5,14 +5,75 @@
       "activo": true,
       "origen": "SCL",
       "destino": "FRA",
-      "aeropuertos_alternativos": ["MUC", "CDG", "AMS"],
+      "aeropuertos_alternativos": [
+        "MUC",
+        "CDG",
+        "AMS"
+      ],
       "tipo": "ida_vuelta",
-      "fechas": {"modo": "mes", "mes": "2027-03"},
-      "estadia_dias": [14, 21],
+      "fechas": {
+        "modo": "mes",
+        "mes": "2027-03"
+      },
+      "estadia_dias": [
+        14,
+        21
+      ],
       "pasajeros": 1,
-      "equipaje": {"facturadas": 1, "costo_estimado_clp": 60000},
+      "equipaje": {
+        "facturadas": 1,
+        "costo_estimado_clp": 60000
+      },
       "traslados_clp": 0,
       "umbral_clp": 950000,
+      "permite_self_transfer": true
+    },
+    {
+      "id": "scl-mad-2027-03",
+      "activo": true,
+      "origen": "SCL",
+      "destino": "MAD",
+      "aeropuertos_alternativos": [],
+      "tipo": "ida_vuelta",
+      "fechas": {
+        "modo": "mes",
+        "mes": "2027-03"
+      },
+      "estadia_dias": [
+        14,
+        21
+      ],
+      "pasajeros": 1,
+      "equipaje": {
+        "facturadas": 1,
+        "costo_estimado_clp": 60000
+      },
+      "traslados_clp": 0,
+      "umbral_clp": null,
+      "permite_self_transfer": true
+    },
+    {
+      "id": "scl-nrt-2027-03",
+      "activo": true,
+      "origen": "SCL",
+      "destino": "NRT",
+      "aeropuertos_alternativos": [],
+      "tipo": "ida_vuelta",
+      "fechas": {
+        "modo": "mes",
+        "mes": "2027-03"
+      },
+      "estadia_dias": [
+        14,
+        21
+      ],
+      "pasajeros": 1,
+      "equipaje": {
+        "facturadas": 1,
+        "costo_estimado_clp": 60000
+      },
+      "traslados_clp": 0,
+      "umbral_clp": null,
       "permite_self_transfer": true
     }
   ]
