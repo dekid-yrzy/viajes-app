@@ -223,6 +223,21 @@ Todos los archivos son JSON UTF-8 con fechas ISO 8601. Los montos van en enteros
 | **GitHub Pages** | Sitio público y cacheado (unos minutos de retraso) | Repo público: rutas, fechas y precios quedan visibles (aceptado) | Ningún dato personal en el repo |
 | **Token de GitHub en el navegador** | Si se filtra, permite escribir en el repo | — | Token fine-grained de un solo repo con `contents:write` y vencimiento. CSP estricta, sin scripts de terceros |
 
+### 5.1 Punto de control H1: cobertura medida (2026-11-02)
+
+Medición hecha desde GitHub Actions con el token real, sobre la respuesta cruda de `prices_for_dates` (antes de filtrar):
+
+| Destino | Ida y vuelta, marzo 2027 | Solo ida, marzo 2027 | Ida y vuelta, cualquier fecha | Solo ida, cualquier fecha |
+|---|---|---|---|---|
+| FRA | 0 | 0 | 0 | 0 |
+| MAD | 0 | 1 | 8 | 28 |
+| NRT | 1 | 1 | 2 | 5 |
+| PAR | 2 | 1 | 7 | 5 |
+| LON | 0 | 1 | 0 | 7 |
+| TYO | 1 | 1 | 2 | 5 |
+
+Resultado: **la caché de Travelpayouts no sirve como fuente base** para rutas largas desde SCL. Hay como máximo 2 fechas con precio por mes, y la mayoría de las combinaciones devuelve 0. El filtro de estadía no explica el problema, porque la respuesta cruda ya viene vacía. Travelpayouts queda como fuente complementaria. Además, mindicador.cl dio timeout desde Actions y se usó el respaldo open.er-api.com, que funcionó.
+
 ## 6. Plan por hitos
 
 Cada hito termina con su criterio de aceptación verificable. Se trabaja con superpowers en cada uno (plan, TDD en la lógica Python y de cálculo, review).
