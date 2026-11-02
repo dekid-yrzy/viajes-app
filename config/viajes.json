@@ -49,7 +49,7 @@
         "costo_estimado_clp": 60000
       },
       "traslados_clp": 0,
-      "umbral_clp": null,
+      "umbral_clp": 2000000,
       "permite_self_transfer": true
     },
     {
