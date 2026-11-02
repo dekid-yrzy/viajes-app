@@ -2,6 +2,8 @@ import { convertir, costoTotalClp, mesesDesde, serieGoogle, serieTravelpayouts, 
 import { ETIQUETAS, bandaConvertida, etiqueta } from "./js/estadistica.js";
 import { fechaCorta, fechaHora, moneda as formatoMoneda } from "./js/formato.js";
 import { conTooltip, dibujar, geometria } from "./js/grafico.js";
+import { ErrorGithub, escribirArchivo, leerArchivo, probarToken, repoDesdeUbicacion } from "./js/github.js";
+import { aFormulario, aplicar, cambiarActivo, validar } from "./js/viajes.js";
 
 const vista = document.getElementById("vista");
 const selector = document.getElementById("moneda");
@@ -112,7 +114,9 @@ function renderInicio(lista, ctx) {
     li.append(a);
     ul.append(li);
   }
-  vista.replaceChildren(lista.length ? ul : el("p", "vacio", "No hay viajes activos."));
+  const agregar = el("a", "boton", "Agregar viaje");
+  agregar.href = "#/viaje/nuevo";
+  vista.replaceChildren(lista.length ? ul : el("p", "vacio", "No hay viajes activos."), agregar);
 }
 
 const TIPOS_ALERTA = { umbral: "Bajo tu umbral", caida_pct: "Caída de precio", minimo_historico: "Mínimo histórico" };
@@ -159,7 +163,9 @@ function renderDetalle(datos, ctx) {
   volver.href = "#/";
   const cabecera = el("div", "detalle-cabecera");
   const titulo = el("div");
-  titulo.append(volver, el("h2", "ruta", `${viaje.origen} → ${viaje.destino}`), el("p", "secundario", textoFechas(viaje, datos.referencia)));
+  const editar = el("a", "secundario enlace-editar", "Editar viaje");
+  editar.href = `#/viaje/${encodeURIComponent(viaje.id)}/editar`;
+  titulo.append(volver, el("h2", "ruta", `${viaje.origen} → ${viaje.destino}`), el("p", "secundario", textoFechas(viaje, datos.referencia)), editar);
   cabecera.append(titulo);
   const partes = [cabecera];
 
@@ -264,6 +270,276 @@ function panelGrafico(datos, r, ctx) {
   return panel;
 }
 
+// ---- Edición de viajes (H4): token solo en este navegador, escritura vía API de contenidos de GitHub ----
+
+const RUTA_VIAJES = "config/viajes.json";
+
+function leerToken() {
+  try {
+    return localStorage.getItem("github_token") || null;
+  } catch {
+    return null;
+  }
+}
+
+function guardarToken(valor) {
+  try {
+    if (valor) localStorage.setItem("github_token", valor);
+    else localStorage.removeItem("github_token");
+    return true;
+  } catch {
+    return false;
+  }
+}
+
+function configGithub() {
+  const repo = repoDesdeUbicacion(location.hostname, location.pathname, cache.ajustes.repo);
+  const token = leerToken();
+  return repo && token ? { ...repo, token } : null;
+}
+
+function aviso(texto, clase = "aviso") {
+  return el("p", clase, texto);
+}
+
+async function guardarLista(transformar, mensaje) {
+  const cfg = configGithub();
+  if (!cfg) throw new ErrorGithub("token");
+  const { datos, sha } = await leerArchivo(cfg, RUTA_VIAJES);
+  const viajes = transformar(datos.viajes ?? []);
+  await escribirArchivo(cfg, RUTA_VIAJES, { ...datos, viajes }, sha, mensaje);
+  // Pages tarda en publicar el cambio: la vista usa la lista recién escrita.
+  cache.todos = viajes;
+  cache.lista = await Promise.all(
+    viajes.filter((v) => v.activo).map((v) => {
+      const previo = cache.lista.find((d) => d.viaje.id === v.id);
+      return previo ? { ...previo, viaje: v } : cargarViaje(v, cache.estado);
+    }),
+  );
+}
+
+function renderAjustes(mensajeLista = "") {
+  const partes = [el("h2", "ruta", "Ajustes")];
+  const panelToken = el("section", "panel");
+  panelToken.append(el("h3", null, "Token de GitHub"));
+  const estadoToken = el("p", "secundario", leerToken() ? "Token guardado en este navegador." : "Sin token: puedes ver todo, pero no editar viajes.");
+  const mensaje = el("p", "aviso");
+  mensaje.setAttribute("role", "status");
+  const form = el("form", "formulario-token");
+  const etiqueta = el("label", "campo");
+  const entrada = el("input");
+  Object.assign(entrada, { type: "password", name: "token", autocomplete: "off", spellcheck: false });
+  etiqueta.append(el("span", null, "Token (fine-grained)"), entrada);
+  const botones = el("div", "botones");
+  const guardar = el("button", "boton primario", "Guardar token");
+  const probar = el("button", "boton", "Probar");
+  const borrar = el("button", "boton", "Borrar token");
+  probar.type = borrar.type = "button";
+  botones.append(guardar, probar, borrar);
+  form.append(etiqueta, botones);
+  form.addEventListener("submit", (e) => {
+    e.preventDefault();
+    const valor = entrada.value.trim();
+    entrada.value = "";
+    if (!valor) return void (mensaje.textContent = "Pega el token antes de guardar.");
+    mensaje.textContent = guardarToken(valor) ? "Token guardado en este navegador." : "Este navegador no permite guardar datos (modo privado).";
+    estadoToken.textContent = leerToken() ? "Token guardado en este navegador." : "Sin token.";
+  });
+  probar.addEventListener("click", async () => {
+    const cfg = configGithub();
+    if (!cfg) return void (mensaje.textContent = "Primero guarda un token.");
+    mensaje.textContent = "Probando…";
+    try {
+      const { escritura } = await probarToken(cfg);
+      mensaje.textContent = escritura ? `Puede escribir en ${cfg.owner}/${cfg.repo}.` : "El token puede leer pero no escribir en este repo.";
+    } catch (e) {
+      mensaje.textContent = e instanceof ErrorGithub ? e.mensaje : "No se pudo probar el token.";
+    }
+  });
+  borrar.addEventListener("click", () => {
+    guardarToken(null);
+    estadoToken.textContent = "Sin token: puedes ver todo, pero no editar viajes.";
+    mensaje.textContent = "Token borrado de este navegador.";
+  });
+  const ayuda = el("ol", "ayuda");
+  const paso1 = el("li");
+  const enlace = el("a", null, "Crea un token fine-grained");
+  enlace.href = "https://github.com/settings/personal-access-tokens/new";
+  enlace.target = "_blank";
+  enlace.rel = "noopener noreferrer";
+  paso1.append(enlace, document.createTextNode(" con vencimiento (por ejemplo 90 días)."));
+  ayuda.append(paso1, el("li", null, "En «Repository access» elige solo el repo viajes-app."), el("li", null, "En «Permissions → Contents» elige «Read and write». Nada más."));
+  panelToken.append(estadoToken, form, mensaje, ayuda);
+
+  const panelViajes = el("section", "panel");
+  panelViajes.append(el("h3", null, "Viajes"));
+  const estadoLista = el("p", "aviso", mensajeLista);
+  estadoLista.setAttribute("role", "status");
+  const ul = el("ul", "lista-viajes");
+  for (const v of cache.todos) {
+    const li = el("li");
+    const nombre = el("span", null, `${v.origen} → ${v.destino} · ${v.id}${v.activo ? "" : " (inactivo)"}`);
+    const editar = el("a", "boton", "Editar");
+    editar.href = `#/viaje/${encodeURIComponent(v.id)}/editar`;
+    const alternar = el("button", "boton", v.activo ? "Desactivar" : "Reactivar");
+    alternar.type = "button";
+    alternar.disabled = !configGithub();
+    alternar.addEventListener("click", async () => {
+      alternar.disabled = true;
+      estadoLista.textContent = "Guardando…";
+      try {
+        await guardarLista((lista) => cambiarActivo(lista, v.id, !v.activo), `Viajes: ${v.activo ? "desactiva" : "reactiva"} ${v.id}`);
+        renderAjustes(`Guardado: ${v.id} ${v.activo ? "desactivado" : "reactivado"}.`);
+      } catch (e) {
+        estadoLista.textContent = e instanceof ErrorGithub ? e.mensaje : "No se pudo guardar.";
+        alternar.disabled = false;
+      }
+    });
+    li.append(nombre, editar, alternar);
+    ul.append(li);
+  }
+  const nuevo = el("a", "boton primario", "Agregar viaje");
+  nuevo.href = "#/viaje/nuevo";
+  panelViajes.append(estadoLista, ul, nuevo);
+  partes.push(panelToken, panelViajes);
+  vista.replaceChildren(...partes);
+}
+
+const CAMPOS = [
+  ["Ruta", [
+    ["origen", "Origen (IATA)", "text"], ["destino", "Destino (IATA)", "text"],
+    ["tipo", "Tipo", [["ida_vuelta", "Ida y vuelta"], ["ida", "Solo ida"]]],
+    ["alternativos", "Aeropuertos alternativos (opcional, separados por coma)", "text"],
+  ]],
+  ["Fechas", [
+    ["modo", "Fechas", [["mes", "Mes completo"], ["flexible", "Fecha ± días"], ["fija", "Fechas fijas"]]],
+    ["mes", "Mes", "month", { modo: ["mes"] }],
+    ["salida", "Salida", "date", { modo: ["fija", "flexible"] }],
+    ["regreso", "Regreso", "date", { modo: ["fija", "flexible"], tipo: ["ida_vuelta"] }],
+    ["margen", "Margen (± días)", "number", { modo: ["flexible"] }],
+    ["estadia_min", "Estadía mínima (días)", "number", { modo: ["mes", "flexible"], tipo: ["ida_vuelta"] }],
+    ["estadia_max", "Estadía máxima (días)", "number", { modo: ["mes", "flexible"], tipo: ["ida_vuelta"] }],
+    ["ref_salida", "Salida de referencia (opcional)", "date", { modo: ["mes", "flexible"] }],
+    ["ref_regreso", "Regreso de referencia (opcional)", "date", { modo: ["mes", "flexible"], tipo: ["ida_vuelta"] }],
+  ]],
+  ["Pasajeros y equipaje", [
+    ["pasajeros", "Pasajeros", "number"], ["facturadas", "Maletas facturadas", "number"],
+    ["costo_equipaje", "Costo estimado del equipaje (CLP)", "number"], ["traslados", "Traslados (CLP)", "number"],
+  ]],
+  ["Alertas", [
+    ["umbral", "Umbral de costo total (CLP, opcional)", "number"],
+    ["permite_self_transfer", "Permitir combinaciones con self-transfer", "checkbox"],
+    ["activo", "Rastrear este viaje", "checkbox"],
+  ]],
+];
+
+function renderFormulario(original) {
+  const titulo = original ? `Editar ${original.origen} → ${original.destino}` : "Agregar viaje";
+  const volver = el("a", "volver", "← Ajustes");
+  volver.href = "#/ajustes";
+  const general = el("p", "aviso");
+  general.setAttribute("role", "alert");
+  const form = el("form", "formulario");
+  form.noValidate = true;
+  const valores = aFormulario(original, cache.ajustes);
+  const controles = {};
+  const filas = {};
+  for (const [grupo, campos] of CAMPOS) {
+    const fs = el("fieldset");
+    fs.append(el("legend", null, grupo));
+    for (const [nombre, texto, tipo, condicion] of campos) {
+      const fila = el("div", tipo === "checkbox" ? "campo campo-check" : "campo");
+      const id = `campo-${nombre}`;
+      let control;
+      if (Array.isArray(tipo)) {
+        control = el("select");
+        for (const [valor, etiqueta] of tipo) {
+          const op = el("option", null, etiqueta);
+          op.value = valor;
+          control.append(op);
+        }
+        control.value = valores[nombre];
+      } else {
+        control = el("input");
+        control.type = tipo;
+        if (tipo === "checkbox") control.checked = Boolean(valores[nombre]);
+        else control.value = valores[nombre] ?? "";
+        if (tipo === "number") Object.assign(control, { inputMode: "numeric", min: "0", step: "1" });
+        if (nombre === "origen" || nombre === "destino") Object.assign(control, { maxLength: 3, autocapitalize: "characters" });
+      }
+      Object.assign(control, { id, name: nombre });
+      const label = el("label", null, texto);
+      label.htmlFor = id;
+      const error = el("p", "error-campo");
+      error.id = `${id}-error`;
+      fila.append(...(tipo === "checkbox" ? [control, label] : [label, control]), error);
+      fs.append(fila);
+      controles[nombre] = control;
+      filas[nombre] = { fila, condicion, error };
+    }
+    form.append(fs);
+  }
+  const visibilidad = () => {
+    for (const { fila, condicion } of Object.values(filas)) {
+      fila.hidden = Boolean(condicion) && Object.entries(condicion).some(([campo, permitidos]) => !permitidos.includes(controles[campo].value));
+    }
+  };
+  controles.modo.addEventListener("change", visibilidad);
+  controles.tipo.addEventListener("change", visibilidad);
+  visibilidad();
+
+  const guardar = el("button", "boton primario", "Guardar");
+  guardar.type = "submit";
+  const cfg = configGithub();
+  if (!cfg) {
+    guardar.disabled = true;
+    const sinToken = el("p", "aviso");
+    const ir = el("a", null, "Configura tu token en Ajustes");
+    ir.href = "#/ajustes";
+    sinToken.append(ir, document.createTextNode(" para poder guardar."));
+    form.append(sinToken);
+  }
+  form.append(guardar);
+
+  form.addEventListener("submit", async (evento) => {
+    evento.preventDefault();
+    general.textContent = "";
+    const leidos = Object.fromEntries(Object.entries(controles).map(([n, c]) => [n, c.type === "checkbox" ? c.checked : c.value]));
+    const { viaje, errores } = validar(leidos, { existentes: cache.todos, original, hoy: new Date().toISOString().slice(0, 10) });
+    for (const [nombre, { error }] of Object.entries(filas)) {
+      const mensaje = errores[nombre] ?? "";
+      error.textContent = mensaje;
+      if (mensaje) {
+        controles[nombre].setAttribute("aria-invalid", "true");
+        controles[nombre].setAttribute("aria-describedby", error.id);
+      } else {
+        controles[nombre].removeAttribute("aria-invalid");
+        controles[nombre].removeAttribute("aria-describedby");
+      }
+    }
+    if (!viaje) {
+      const primero = Object.keys(filas).find((n) => errores[n]);
+      general.textContent = "Revisa los campos marcados.";
+      controles[primero]?.focus();
+      return;
+    }
+    guardar.disabled = true;
+    guardar.textContent = "Guardando…";
+    try {
+      const accion = original ? "edita" : "crea";
+      await guardarLista((lista) => aplicar(lista, viaje, original?.id ?? null), `Viajes: ${accion} ${viaje.id}`);
+      location.hash = viaje.activo ? `#/viaje/${encodeURIComponent(viaje.id)}` : "#/ajustes";
+      setTimeout(() => vista.prepend(aviso("Guardado. El recolector lo tomará en la próxima corrida diaria.")), 0);
+    } catch (e) {
+      // El formulario no se limpia: lo escrito se conserva para reintentar.
+      general.textContent = e instanceof ErrorGithub ? e.mensaje : "No se pudo guardar.";
+      guardar.disabled = false;
+      guardar.textContent = "Guardar";
+    }
+  });
+  vista.replaceChildren(volver, el("h2", "ruta", titulo), general, form);
+}
+
 let cache = null;
 
 async function cargar() {
@@ -279,9 +555,9 @@ async function cargar() {
   document.getElementById("actualizado").textContent = estado.ultima_corrida
     ? `Actualizado: ${fechaHora(estado.ultima_corrida)}`
     : "Aún no hay datos";
-  const activos = (viajes.viajes ?? []).filter((v) => v.activo);
-  const lista = await Promise.all(activos.map((v) => cargarViaje(v, estado)));
-  return { lista, tasas, minimo: ajustes.min_observaciones_percentil ?? 14, alertas: alertas?.alertas ?? [] };
+  const todos = viajes.viajes ?? [];
+  const lista = await Promise.all(todos.filter((v) => v.activo).map((v) => cargarViaje(v, estado)));
+  return { lista, todos, estado, ajustes, tasas, minimo: ajustes.min_observaciones_percentil ?? 14, alertas: alertas?.alertas ?? [] };
 }
 
 async function render() {
@@ -290,6 +566,23 @@ async function render() {
   if (location.hash === "#/alertas") {
     document.title = "Alertas · Viajes";
     renderAlertas(cache.alertas, cache.lista);
+    return;
+  }
+  if (location.hash === "#/ajustes") {
+    document.title = "Ajustes · Viajes";
+    renderAjustes();
+    return;
+  }
+  if (location.hash === "#/viaje/nuevo") {
+    document.title = "Agregar viaje · Viajes";
+    renderFormulario(null);
+    return;
+  }
+  const edicion = location.hash.match(/^#\/viaje\/(.+)\/editar$/);
+  const original = edicion && cache.todos.find((v) => v.id === decodeURIComponent(edicion[1]));
+  if (original) {
+    document.title = `Editar ${original.origen} → ${original.destino} · Viajes`;
+    renderFormulario(original);
     return;
   }
   const ruta = location.hash.match(/^#\/viaje\/(.+)$/);

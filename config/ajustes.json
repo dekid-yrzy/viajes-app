@@ -8,5 +8,6 @@
   "min_observaciones_percentil": 14,
   "serpapi_presupuesto_mensual": 200,
   "radio_aeropuertos_km": 150,
-  "url_publica": "https://dekid-yrzy.github.io/viajes-app/"
+  "url_publica": "https://dekid-yrzy.github.io/viajes-app/",
+  "repo": "dekid-yrzy/viajes-app"
 }

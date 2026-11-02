@@ -44,6 +44,7 @@
 }
 
 * { box-sizing: border-box; }
+[hidden] { display: none !important; } /* .campo usa display:grid, que si no le gana a hidden */
 
 body {
   margin: 0;
@@ -144,6 +145,39 @@ th { color: var(--tinta-2); font-weight: 550; position: sticky; top: 0; backgrou
 .alerta p { margin: 4px 0; }
 .alerta-cabecera { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 4px 12px; }
 .alerta-tipo { font-weight: 600; }
+
+.boton {
+  display: inline-flex; align-items: center; justify-content: center; min-height: 40px; padding: 8px 14px;
+  font: inherit; font-size: 0.9375rem; color: var(--tinta); text-decoration: none; cursor: pointer;
+  background: var(--superficie); border: 1px solid var(--eje); border-radius: 8px;
+}
+.boton.primario { background: var(--series-1); border-color: var(--series-1); color: #fff; font-weight: 600; }
+.boton:disabled { opacity: 0.5; cursor: not-allowed; }
+.botones { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 8px; }
+.aviso { color: var(--tinta-2); font-size: 0.875rem; min-height: 1.2em; }
+.aviso:empty { min-height: 0; margin: 0; }
+.ayuda { color: var(--tinta-2); font-size: 0.875rem; padding-left: 20px; }
+.panel h3 { margin: 0 0 8px; font-size: 1rem; }
+.enlace-editar { display: inline-block; margin-top: 4px; }
+.lista-viajes { list-style: none; padding: 0; margin: 0 0 12px; display: grid; gap: 8px; }
+.lista-viajes li { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }
+.lista-viajes li span { flex: 1 1 200px; overflow-wrap: anywhere; }
+
+.formulario fieldset { border: 1px solid var(--borde); border-radius: var(--radio); background: var(--superficie); margin: 0 0 12px; padding: 12px 16px; }
+.formulario legend { font-weight: 600; padding: 0 4px; }
+.campo { display: grid; gap: 4px; margin-bottom: 10px; }
+.campo label { font-size: 0.875rem; color: var(--tinta-2); }
+.campo input, .campo select {
+  font: inherit; font-size: 1rem; color: var(--tinta); background: var(--plano);
+  border: 1px solid var(--eje); border-radius: 8px; padding: 8px 10px; min-height: 40px; width: 100%; max-width: 360px;
+}
+.campo-check { display: flex; align-items: center; gap: 8px; }
+.campo-check input { width: 20px; min-height: 20px; }
+.campo [aria-invalid="true"] { border-color: var(--caro); }
+.error-campo { margin: 0; color: var(--tinta); font-size: 0.8125rem; }
+.error-campo:not(:empty)::before { content: "▲ "; color: var(--caro); }
+.error-campo:empty { display: none; }
+.formulario-token .campo input { max-width: 420px; }
 .precio.vacio { font-size: 1rem; font-weight: 500; }
 
 @media (max-width: 480px) {
