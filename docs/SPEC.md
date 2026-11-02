@@ -238,6 +238,22 @@ Medición hecha desde GitHub Actions con el token real, sobre la respuesta cruda
 
 Resultado: **la caché de Travelpayouts no sirve como fuente base** para rutas largas desde SCL. Hay como máximo 2 fechas con precio por mes, y la mayoría de las combinaciones devuelve 0. El filtro de estadía no explica el problema, porque la respuesta cruda ya viene vacía. Travelpayouts queda como fuente complementaria. Además, mindicador.cl dio timeout desde Actions y se usó el respaldo open.er-api.com, que funcionó.
 
+### 5.2 Prueba de fast-flights desde Actions (2026-11-02)
+
+- `fast-flights==2.2` necesita `primp==0.15.0`: con primp 2.x falla con `Invalid impersonate: "chrome_126"`. Hay que fijar ambas versiones.
+- Se usa `fetch_mode="common"`. El modo `"fallback"` envía la consulta a un servicio de terceros.
+- Ida y vuelta SCL→FRA, SCL→MAD y SCL→NRT en marzo de 2027: entre 133 y 193 vuelos por consulta, en 1 a 2 segundos cada una. Incluye el nivel de precio de Google (`low`/`typical`/`high`), aerolíneas, horarios, duración y escalas. Los precios vienen como texto en USD (`"$968"`).
+- Sin bloqueos en 4 consultas seguidas. Es una muestra mínima: el riesgo de bloqueo con más volumen sigue abierto.
+
+### 5.3 SerpApi Google Flights (según su documentación, sin probar aún)
+
+- Por defecto busca ida y vuelta (`type=1`) y requiere `outbound_date` y `return_date`. El precio de `best_flights`/`other_flights` es el del viaje completo.
+- Los detalles del tramo de regreso requieren una **segunda consulta** con `departure_token`. Solo hace falta para el itinerario (H8), no para la serie diaria.
+- `price_insights` trae `lowest_price`, `price_level`, `typical_price_range` y `price_history`. La documentación no explica bien el formato de este último.
+- Las búsquedas cacheadas no consumen cuota.
+
+**Decisión del usuario (2026-11-02):** la fuente base es SerpApi + fast-flights. SerpApi hace 1 consulta diaria por viaje sobre una fecha representativa. fast-flights llena el calendario del mes una vez por semana y sirve de respaldo. Travelpayouts queda como complemento.
+
 ## 6. Plan por hitos
 
 Cada hito termina con su criterio de aceptación verificable. Se trabaja con superpowers en cada uno (plan, TDD en la lógica Python y de cálculo, review).
