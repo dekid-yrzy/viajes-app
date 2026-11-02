@@ -8,7 +8,7 @@ from recolector.tipos_cambio import a_clp
 URL = "https://api.travelpayouts.com/aviasales/v3/prices_for_dates"
 
 
-def _ventana(viaje: dict) -> tuple[date, date]:
+def ventana(viaje: dict) -> tuple[date, date]:
     """Rango de fechas de salida aceptadas para el viaje."""
     f = viaje["fechas"]
     if f["modo"] == "fija":
@@ -22,7 +22,7 @@ def _ventana(viaje: dict) -> tuple[date, date]:
 
 
 def consultas(viaje: dict, hoy: date) -> list[dict]:
-    inicio, fin = _ventana(viaje)
+    inicio, fin = ventana(viaje)
     inicio = max(inicio, hoy)
     if fin < inicio:
         return []
@@ -68,7 +68,7 @@ def _normalizar(item: dict, viaje: dict, hoy: date, capturado: str, tasas: dict 
     precio = item.get("price")
     if isinstance(precio, bool) or not isinstance(precio, (int, float)) or precio <= 0 or not item.get("departure_at"):
         return None
-    inicio, fin = _ventana(viaje)
+    inicio, fin = ventana(viaje)
     ida_vuelta = viaje["tipo"] == "ida_vuelta"
     salida = item["departure_at"][:10]
     regreso = (item.get("return_at") or "")[:10] or None
@@ -101,7 +101,7 @@ def _normalizar(item: dict, viaje: dict, hoy: date, capturado: str, tasas: dict 
 
 
 def cobertura(lista: list[dict], viaje: dict, hoy: date) -> dict:
-    inicio, fin = _ventana(viaje)
+    inicio, fin = ventana(viaje)
     posibles = max((fin - max(inicio, hoy)).days + 1, 0)
     return {"ofertas": len(lista), "fechas_con_precio": len({o["salida"] for o in lista}), "fechas_posibles": posibles}
 

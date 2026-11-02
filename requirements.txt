@@ -1,0 +1,2 @@
+fast-flights==2.2
+primp==0.15.0
