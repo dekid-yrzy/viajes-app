@@ -86,6 +86,49 @@
         680,
         1000
       ]
+    },
+    {
+      "capturado": "2026-11-04T11:59:35Z",
+      "fuente": "serpapi",
+      "salida": "2027-03-05",
+      "regreso": "2027-03-22",
+      "origen": "SCL",
+      "destino": "MAD",
+      "precio": {
+        "monto": 682.0,
+        "moneda": "USD",
+        "clp": 668762
+      },
+      "escalas": 1,
+      "duracion_min": 1030,
+      "aerolineas": [
+        "Avianca"
+      ],
+      "self_transfer": false,
+      "tramos": [
+        {
+          "origen": "SCL",
+          "destino": "BOG",
+          "salida": "2027-03-05 16:15",
+          "llegada": "2027-03-05 20:20",
+          "aerolinea": "Avianca",
+          "vuelo": "AV 116"
+        },
+        {
+          "origen": "BOG",
+          "destino": "MAD",
+          "salida": "2027-03-05 21:50",
+          "llegada": "2027-03-06 13:25",
+          "aerolinea": "Avianca",
+          "vuelo": "AV 10"
+        }
+      ],
+      "enlace": "https://www.google.com/travel/flights?hl=es&gl=cl&curr=USD&tfs=CBwQAhoeEgoyMDI3LTAzLTA1agcIARIDU0NMcgcIARIDTUFEGh4SCjIwMjctMDMtMjJqBwgBEgNNQURyBwgBEgNTQ0xAAUgBcAGYAQE&tfu=EgIIAQ",
+      "nivel": "low",
+      "rango_tipico": [
+        690,
+        1050
+      ]
     }
   ]
 }

@@ -86,6 +86,49 @@
         840,
         1350
       ]
+    },
+    {
+      "capturado": "2026-11-04T11:59:35Z",
+      "fuente": "serpapi",
+      "salida": "2027-03-01",
+      "regreso": "2027-03-18",
+      "origen": "SCL",
+      "destino": "FRA",
+      "precio": {
+        "monto": 972.0,
+        "moneda": "USD",
+        "clp": 953133
+      },
+      "escalas": 1,
+      "duracion_min": 1725,
+      "aerolineas": [
+        "Air Canada"
+      ],
+      "self_transfer": false,
+      "tramos": [
+        {
+          "origen": "SCL",
+          "destino": "YYZ",
+          "salida": "2027-03-01 21:55",
+          "llegada": "2027-03-02 06:40",
+          "aerolinea": "Air Canada",
+          "vuelo": "AC 93"
+        },
+        {
+          "origen": "YYZ",
+          "destino": "FRA",
+          "salida": "2027-03-02 17:00",
+          "llegada": "2027-03-03 06:40",
+          "aerolinea": "Air Canada",
+          "vuelo": "AC 840"
+        }
+      ],
+      "enlace": "https://www.google.com/travel/flights?hl=es&gl=cl&curr=USD&tfs=CBwQAhoeEgoyMDI3LTAzLTAxagcIARIDU0NMcgcIARIDRlJBGh4SCjIwMjctMDMtMThqBwgBEgNGUkFyBwgBEgNTQ0xAAUgBcAGYAQE&tfu=EgIIAQ",
+      "nivel": "typical",
+      "rango_tipico": [
+        840,
+        1350
+      ]
     }
   ]
 }
