@@ -1,6 +1,6 @@
 {
-  "ultima_corrida": "2026-11-04T11:59:35Z",
-  "tipos_cambio": "mindicador",
+  "ultima_corrida": "2026-11-05T12:04:27Z",
+  "tipos_cambio": "er-api",
   "fuentes": {
     "travelpayouts": {
       "estado": "ok",
@@ -25,7 +25,7 @@
   },
   "serpapi_uso": {
     "mes": "2026-11",
-    "usadas": 9
+    "usadas": 12
   },
   "viajes": {
     "scl-fra-2027-03": {
@@ -51,8 +51,8 @@
       "fuente_en_vivo": "serpapi"
     },
     "scl-nrt-2027-03": {
-      "ofertas": 1,
-      "fechas_con_precio": 1,
+      "ofertas": 0,
+      "fechas_con_precio": 0,
       "fechas_posibles": 31,
       "referencia": {
         "salida": "2027-03-07",
