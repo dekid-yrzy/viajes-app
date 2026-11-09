@@ -285,6 +285,41 @@
         680,
         1000
       ]
+    },
+    {
+      "capturado": "2026-11-09T12:05:10Z",
+      "fuente": "serpapi",
+      "salida": "2027-03-05",
+      "regreso": "2027-03-22",
+      "origen": "SCL",
+      "destino": "MAD",
+      "precio": {
+        "monto": 760.0,
+        "moneda": "USD",
+        "clp": 742832
+      },
+      "escalas": 0,
+      "duracion_min": 760,
+      "aerolineas": [
+        "Iberia"
+      ],
+      "self_transfer": false,
+      "tramos": [
+        {
+          "origen": "SCL",
+          "destino": "MAD",
+          "salida": "2027-03-05 00:50",
+          "llegada": "2027-03-05 17:30",
+          "aerolinea": "Iberia",
+          "vuelo": "IB 114"
+        }
+      ],
+      "enlace": "https://www.google.com/travel/flights?hl=es&gl=cl&curr=USD&tfs=CBwQAhoeEgoyMDI3LTAzLTA1agcIARIDU0NMcgcIARIDTUFEGh4SCjIwMjctMDMtMjJqBwgBEgNNQURyBwgBEgNTQ0xAAUgBcAGYAQE&tfu=EgIIAQ",
+      "nivel": "typical",
+      "rango_tipico": [
+        690,
+        1050
+      ]
     }
   ]
 }
