@@ -1,5 +1,5 @@
 {
-  "ultima_corrida": "2026-11-10T11:57:59Z",
+  "ultima_corrida": "2026-11-11T12:04:21Z",
   "tipos_cambio": "er-api",
   "fuentes": {
     "travelpayouts": {
@@ -11,8 +11,8 @@
       "detalle": ""
     },
     "fast_flights": {
-      "estado": "ok",
-      "detalle": ""
+      "estado": "error",
+      "detalle": "calendario abortado: RuntimeError: No flights found:\nSkip to main contentAccessibility feedback\nExplore\nFlights\nHotels\nVacation rentals\nChange appearance\n[Sign in][1]\nExplore\nFlights\nHotels\nVacation rentals\nFlight Deals\nTracked flight prices\nTracked hotel prices\nChange language\nChange currency\nChange location\nChange currency\nFeedback\nHelp\nLoading results\nLoading results\n\n# Flight search\n\nRound trip\n* Round trip\n* One way\n* Multi-city\n1\n* Adults\n  Remove adult\n  1 adult passenger1\n  Add adult\n* Children Aged 2-11\n  Aged 2 to 11\n  Remove child aged 2 to 11\n  0 children aged 2 to 110\n  Add child aged 2 to 11\n* Infants In seat\n  Remove infant in seat\n  0 infants in their own seats0\n  Add infant in seat\n* Infants On lap\n  Remove infant on lap\n  0 infants on lap0\n  Add infant on lap\nDoneCancel\nEconomy\n* Economy\n* Premium economy\n* Business\n* First\nSantiago SCL\nSCL · Santiago\nRemove\nSelect multiple airports\nDone\nPress the plus key to switch to multi-select mode.\nTokyo NRT\nNRT · Tokyo\nRemove\nSelect multiple airports\nDone\nPress the plus key to switch to multi-select mode.\nEnter a date or use the arrow keys to change the current date.\nEnter a date or use the arrow keys to change the current date.\nRound trip\n* Round trip\n* One way\nReset\nDone\nAdd flight\n\n## Filters\n\nAll filters\nStops\nAirlines\nBags\nPrice\nTimes\nEmissions\nConnecting airports\nDuration\n\n## Search results\n\nLanguage​English (United States)Location​United StatesCurrencyUSD\n[About][2][Privacy][3][Terms][4][Join user studies][5][Feedback][6][Help Center][7]\n\nDisplayed currencies may differ from the currencies used to purchase flights. [Learn more][8]\n\nGoogle apps\nMain menu\n\n[1]: https://accounts.google.com/ServiceLogin?service=searchandassistant&passive=1209600&continue=ht\ntps://www.google.com/travel/flights?tfs%3DGhoSCjIwMjctMDMtMDFqBRIDU0NMcgUSA05SVBoaEgoyMDI3LTAzLTE4ag\nUSA05SVHIFEgNTQ0xCAQFIAZgBAQ%253D%253D%26hl%3Den%26tfu%3DEgQIABABIgA%26curr&followup=https://www.goo\ngle.com/travel/flights?tfs%3DGhoSCjIwMjctMDMtMDFqBRIDU0NMcgUSA05SVBoaEgoyMDI3LTAzLTE4agUSA05SVHIFEgN\nTQ0xCAQFIAZgBAQ%253D%253D%26hl%3Den%26tfu%3DEgQIABABIgA%26curr&hl=en&ec=GAZAlQM\n[2]: https://about.google/?hl=en-US\n[3]: https://policies.google.com/privacy?hl=en-US\n[4]: https://policies.google.com/terms?hl=en-US\n[5]: https://google.qualtrics.com/jfe/form/SV_3NMIMtX0F2zkakR?reserved%3D1%26utm_source%3DFooter%252\n0link%26utm_medium%3Down_web%26%20utm_campaign%3DQ2%26productTag%3D0%26campaignDate%3DApril2020%26re\nferral_code%3DUXbJ377133&Q_Language=en-US\n[6]: ./#0\n[7]: https://support.google.com/travel/?hl=en-US#topic=2475360\n[8]: https://www.google.com/googlefinance/disclaimer?hl=en-US&gl=US\n"
     },
     "telegram": {
       "estado": "sin_alertas",
@@ -25,7 +25,7 @@
   },
   "serpapi_uso": {
     "mes": "2026-11",
-    "usadas": 27
+    "usadas": 30
   },
   "viajes": {
     "scl-fra-2027-03": {
@@ -63,5 +63,18 @@
     }
   },
   "alertas_nuevas": 0,
-  "errores": []
+  "errores": [
+    {
+      "fecha": "2026-11-11T12:04:21Z",
+      "fuente": "fast_flights",
+      "viaje_id": "scl-mad-2027-03",
+      "mensaje": "calendario abortado: RuntimeError: No flights found:\nSkip to main contentAccessibility feedback\nExplore\nFlights\nHotels\nVacation rentals\nChange appearance\n[Sign in][1]\nExplore\nFlights\nHotels\nVacation rentals\nFlight Deals\nTracked flight prices\nTracked hotel prices\nChange language\nChange currency\nChange location\nChange currency\nFeedback\nHelp\nLoading results\nLoading results\n\n# Flight search\n\nRound trip\n* Round trip\n* One way\n* Multi-city\n1\n* Adults\n  Remove adult\n  1 adult passenger1\n  Add adult\n* Children Aged 2-11\n  Aged 2 to 11\n  Remove child aged 2 to 11\n  0 children aged 2 to 110\n  Add child aged 2 to 11\n* Infants In seat\n  Remove infant in seat\n  0 infants in their own seats0\n  Add infant in seat\n* Infants On lap\n  Remove infant on lap\n  0 infants on lap0\n  Add infant on lap\nDoneCancel\nEconomy\n* Economy\n* Premium economy\n* Business\n* First\nSantiago SCL\nSCL · Santiago\nRemove\nSelect multiple airports\nDone\nPress the plus key to switch to multi-select mode.\nMadrid MAD\nMAD · Madrid\nRemove\nSelect multiple airports\nDone\nPress the plus key to switch to multi-select mode.\nEnter a date or use the arrow keys to change the current date.\nEnter a date or use the arrow keys to change the current date.\nRound trip\n* Round trip\n* One way\nReset\nDone\nAdd flight\n\n## Filters\n\nAll filters\nStops\nAirlines\nBags\nPrice\nTimes\nEmissions\nConnecting airports\nDuration\n\n## Search results\n\nLanguage​English (United States)Location​United StatesCurrencyUSD\n[About][2][Privacy][3][Terms][4][Join user studies][5][Feedback][6][Help Center][7]\n\nDisplayed currencies may differ from the currencies used to purchase flights. [Learn more][8]\n\nGoogle apps\nMain menu\n\n[1]: https://accounts.google.com/ServiceLogin?service=searchandassistant&passive=1209600&continue=ht\ntps://www.google.com/travel/flights?tfs%3DGhoSCjIwMjctMDMtMDFqBRIDU0NMcgUSA01BRBoaEgoyMDI3LTAzLTE4ag\nUSA01BRHIFEgNTQ0xCAQFIAZgBAQ%253D%253D%26hl%3Den%26tfu%3DEgQIABABIgA%26curr&followup=https://www.goo\ngle.com/travel/flights?tfs%3DGhoSCjIwMjctMDMtMDFqBRIDU0NMcgUSA01BRBoaEgoyMDI3LTAzLTE4agUSA01BRHIFEgN\nTQ0xCAQFIAZgBAQ%253D%253D%26hl%3Den%26tfu%3DEgQIABABIgA%26curr&hl=en&ec=GAZAlQM\n[2]: https://about.google/?hl=en-US\n[3]: https://policies.google.com/privacy?hl=en-US\n[4]: https://policies.google.com/terms?hl=en-US\n[5]: https://google.qualtrics.com/jfe/form/SV_3NMIMtX0F2zkakR?reserved%3D1%26utm_source%3DFooter%252\n0link%26utm_medium%3Down_web%26%20utm_campaign%3DQ2%26productTag%3D0%26campaignDate%3DApril2020%26re\nferral_code%3DUXbJ377133&Q_Language=en-US\n[6]: ./#0\n[7]: https://support.google.com/travel/?hl=en-US#topic=2475360\n[8]: https://www.google.com/googlefinance/disclaimer?hl=en-US&gl=US\n"
+    },
+    {
+      "fecha": "2026-11-11T12:04:21Z",
+      "fuente": "fast_flights",
+      "viaje_id": "scl-nrt-2027-03",
+      "mensaje": "calendario abortado: RuntimeError: No flights found:\nSkip to main contentAccessibility feedback\nExplore\nFlights\nHotels\nVacation rentals\nChange appearance\n[Sign in][1]\nExplore\nFlights\nHotels\nVacation rentals\nFlight Deals\nTracked flight prices\nTracked hotel prices\nChange language\nChange currency\nChange location\nChange currency\nFeedback\nHelp\nLoading results\nLoading results\n\n# Flight search\n\nRound trip\n* Round trip\n* One way\n* Multi-city\n1\n* Adults\n  Remove adult\n  1 adult passenger1\n  Add adult\n* Children Aged 2-11\n  Aged 2 to 11\n  Remove child aged 2 to 11\n  0 children aged 2 to 110\n  Add child aged 2 to 11\n* Infants In seat\n  Remove infant in seat\n  0 infants in their own seats0\n  Add infant in seat\n* Infants On lap\n  Remove infant on lap\n  0 infants on lap0\n  Add infant on lap\nDoneCancel\nEconomy\n* Economy\n* Premium economy\n* Business\n* First\nSantiago SCL\nSCL · Santiago\nRemove\nSelect multiple airports\nDone\nPress the plus key to switch to multi-select mode.\nTokyo NRT\nNRT · Tokyo\nRemove\nSelect multiple airports\nDone\nPress the plus key to switch to multi-select mode.\nEnter a date or use the arrow keys to change the current date.\nEnter a date or use the arrow keys to change the current date.\nRound trip\n* Round trip\n* One way\nReset\nDone\nAdd flight\n\n## Filters\n\nAll filters\nStops\nAirlines\nBags\nPrice\nTimes\nEmissions\nConnecting airports\nDuration\n\n## Search results\n\nLanguage​English (United States)Location​United StatesCurrencyUSD\n[About][2][Privacy][3][Terms][4][Join user studies][5][Feedback][6][Help Center][7]\n\nDisplayed currencies may differ from the currencies used to purchase flights. [Learn more][8]\n\nGoogle apps\nMain menu\n\n[1]: https://accounts.google.com/ServiceLogin?service=searchandassistant&passive=1209600&continue=ht\ntps://www.google.com/travel/flights?tfs%3DGhoSCjIwMjctMDMtMDFqBRIDU0NMcgUSA05SVBoaEgoyMDI3LTAzLTE4ag\nUSA05SVHIFEgNTQ0xCAQFIAZgBAQ%253D%253D%26hl%3Den%26tfu%3DEgQIABABIgA%26curr&followup=https://www.goo\ngle.com/travel/flights?tfs%3DGhoSCjIwMjctMDMtMDFqBRIDU0NMcgUSA05SVBoaEgoyMDI3LTAzLTE4agUSA05SVHIFEgN\nTQ0xCAQFIAZgBAQ%253D%253D%26hl%3Den%26tfu%3DEgQIABABIgA%26curr&hl=en&ec=GAZAlQM\n[2]: https://about.google/?hl=en-US\n[3]: https://policies.google.com/privacy?hl=en-US\n[4]: https://policies.google.com/terms?hl=en-US\n[5]: https://google.qualtrics.com/jfe/form/SV_3NMIMtX0F2zkakR?reserved%3D1%26utm_source%3DFooter%252\n0link%26utm_medium%3Down_web%26%20utm_campaign%3DQ2%26productTag%3D0%26campaignDate%3DApril2020%26re\nferral_code%3DUXbJ377133&Q_Language=en-US\n[6]: ./#0\n[7]: https://support.google.com/travel/?hl=en-US#topic=2475360\n[8]: https://www.google.com/googlefinance/disclaimer?hl=en-US&gl=US\n"
+    }
+  ]
 }
