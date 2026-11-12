@@ -1,14 +1,98 @@
 {
-  "generado": "2026-11-10T11:57:59Z",
+  "generado": "2026-11-12T12:07:02Z",
   "estadia_dias": 17,
   "completo": false,
   "fechas": {
     "2027-03-01": {
       "regreso": "2027-03-18",
-      "monto": 756.0,
-      "clp": 738113,
+      "monto": 738.0,
+      "clp": 724000,
+      "nivel": "typical"
+    },
+    "2027-03-02": {
+      "regreso": "2027-03-19",
+      "monto": 738.0,
+      "clp": 724000,
+      "nivel": "typical"
+    },
+    "2027-03-03": {
+      "regreso": "2027-03-20",
+      "monto": 738.0,
+      "clp": 724000,
+      "nivel": "typical"
+    },
+    "2027-03-06": {
+      "regreso": "2027-03-23",
+      "monto": 738.0,
+      "clp": 724000,
+      "nivel": "typical"
+    },
+    "2027-03-07": {
+      "regreso": "2027-03-24",
+      "monto": 738.0,
+      "clp": 724000,
+      "nivel": "typical"
+    },
+    "2027-03-08": {
+      "regreso": "2027-03-25",
+      "monto": 738.0,
+      "clp": 724000,
+      "nivel": "typical"
+    },
+    "2027-03-09": {
+      "regreso": "2027-03-26",
+      "monto": 738.0,
+      "clp": 724000,
+      "nivel": "typical"
+    },
+    "2027-03-11": {
+      "regreso": "2027-03-28",
+      "monto": 738.0,
+      "clp": 724000,
+      "nivel": "typical"
+    },
+    "2027-03-12": {
+      "regreso": "2027-03-29",
+      "monto": 738.0,
+      "clp": 724000,
+      "nivel": "typical"
+    },
+    "2027-03-13": {
+      "regreso": "2027-03-30",
+      "monto": 738.0,
+      "clp": 724000,
+      "nivel": "typical"
+    },
+    "2027-03-14": {
+      "regreso": "2027-03-31",
+      "monto": 738.0,
+      "clp": 724000,
+      "nivel": "typical"
+    },
+    "2027-03-16": {
+      "regreso": "2027-04-02",
+      "monto": 716.0,
+      "clp": 702417,
+      "nivel": "typical"
+    },
+    "2027-03-18": {
+      "regreso": "2027-04-04",
+      "monto": 733.0,
+      "clp": 719095,
+      "nivel": "typical"
+    },
+    "2027-03-19": {
+      "regreso": "2027-04-05",
+      "monto": 733.0,
+      "clp": 719095,
+      "nivel": "typical"
+    },
+    "2027-03-20": {
+      "regreso": "2027-04-06",
+      "monto": 733.0,
+      "clp": 719095,
       "nivel": "typical"
     }
   },
-  "errores": 3
+  "errores": 8
 }

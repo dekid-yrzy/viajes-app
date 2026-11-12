@@ -1,104 +1,146 @@
 {
-  "generado": "2026-11-11T12:04:21Z",
+  "generado": "2026-11-12T12:07:02Z",
   "estadia_dias": 17,
   "completo": false,
   "fechas": {
+    "2027-03-01": {
+      "regreso": "2027-03-18",
+      "monto": 944.0,
+      "clp": 926092,
+      "nivel": "typical"
+    },
     "2027-03-02": {
       "regreso": "2027-03-19",
       "monto": 944.0,
-      "clp": 914594,
+      "clp": 926092,
       "nivel": "typical"
     },
     "2027-03-03": {
       "regreso": "2027-03-20",
-      "monto": 1031.0,
-      "clp": 998884,
+      "monto": 1018.0,
+      "clp": 998689,
       "nivel": "typical"
     },
     "2027-03-04": {
       "regreso": "2027-03-21",
       "monto": 944.0,
-      "clp": 914594,
+      "clp": 926092,
       "nivel": "typical"
     },
     "2027-03-05": {
       "regreso": "2027-03-22",
       "monto": 989.0,
-      "clp": 958193,
+      "clp": 970239,
+      "nivel": "typical"
+    },
+    "2027-03-06": {
+      "regreso": "2027-03-23",
+      "monto": 944.0,
+      "clp": 926092,
       "nivel": "typical"
     },
     "2027-03-07": {
       "regreso": "2027-03-24",
-      "monto": 993.0,
-      "clp": 962068,
+      "monto": 994.0,
+      "clp": 975144,
       "nivel": "typical"
     },
     "2027-03-08": {
       "regreso": "2027-03-25",
-      "monto": 943.0,
-      "clp": 913626,
+      "monto": 939.0,
+      "clp": 921187,
       "nivel": "typical"
     },
     "2027-03-09": {
       "regreso": "2027-03-26",
-      "monto": 944.0,
-      "clp": 914594,
+      "monto": 943.0,
+      "clp": 925111,
       "nivel": "typical"
     },
     "2027-03-10": {
       "regreso": "2027-03-27",
-      "monto": 977.0,
-      "clp": 946566,
+      "monto": 972.0,
+      "clp": 953561,
       "nivel": "typical"
     },
     "2027-03-11": {
       "regreso": "2027-03-28",
-      "monto": 963.0,
-      "clp": 933003,
+      "monto": 958.0,
+      "clp": 939827,
       "nivel": "typical"
     },
     "2027-03-12": {
       "regreso": "2027-03-29",
-      "monto": 1020.0,
-      "clp": 988227,
+      "monto": 1015.0,
+      "clp": 995745,
+      "nivel": "typical"
+    },
+    "2027-03-13": {
+      "regreso": "2027-03-30",
+      "monto": 1022.0,
+      "clp": 1002613,
       "nivel": "typical"
     },
     "2027-03-14": {
       "regreso": "2027-03-31",
-      "monto": 1065.0,
-      "clp": 1031825,
+      "monto": 1067.0,
+      "clp": 1046759,
       "nivel": "typical"
     },
     "2027-03-15": {
       "regreso": "2027-04-01",
-      "monto": 980.0,
-      "clp": 949473,
+      "monto": 984.0,
+      "clp": 965334,
       "nivel": "typical"
     },
-    "2027-03-16": {
-      "regreso": "2027-04-02",
-      "monto": 1063.0,
-      "clp": 1029888,
+    "2027-03-17": {
+      "regreso": "2027-04-03",
+      "monto": 1030.0,
+      "clp": 1010461,
       "nivel": "typical"
     },
-    "2027-03-19": {
-      "regreso": "2027-04-05",
-      "monto": 1109.0,
-      "clp": 1074455,
+    "2027-03-18": {
+      "regreso": "2027-04-04",
+      "monto": 1042.0,
+      "clp": 1022233,
+      "nivel": "typical"
+    },
+    "2027-03-20": {
+      "regreso": "2027-04-06",
+      "monto": 1155.0,
+      "clp": 1133090,
       "nivel": "typical"
     },
     "2027-03-22": {
       "regreso": "2027-04-08",
-      "monto": 1046.0,
-      "clp": 1013417,
+      "monto": 1051.0,
+      "clp": 1031063,
       "nivel": "typical"
     },
     "2027-03-23": {
       "regreso": "2027-04-09",
-      "monto": 998.0,
-      "clp": 966912,
+      "monto": 1007.0,
+      "clp": 987897,
+      "nivel": "typical"
+    },
+    "2027-03-26": {
+      "regreso": "2027-04-12",
+      "monto": 1081.0,
+      "clp": 1060493,
+      "nivel": "typical"
+    },
+    "2027-03-28": {
+      "regreso": "2027-04-14",
+      "monto": 1137.0,
+      "clp": 1115431,
+      "nivel": "typical"
+    },
+    "2027-03-29": {
+      "regreso": "2027-04-15",
+      "monto": 1163.0,
+      "clp": 1140938,
       "nivel": "typical"
     }
   },
-  "errores": 10
+  "errores": 8
 }

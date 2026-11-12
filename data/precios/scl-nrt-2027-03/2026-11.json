@@ -583,6 +583,47 @@
         1500,
         2250
       ]
+    },
+    {
+      "capturado": "2026-11-12T12:07:02Z",
+      "fuente": "serpapi",
+      "salida": "2027-03-07",
+      "regreso": "2027-03-24",
+      "origen": "SCL",
+      "destino": "NRT",
+      "precio": {
+        "monto": 1805.0,
+        "moneda": "USD",
+        "clp": 1770759
+      },
+      "escalas": 1,
+      "duracion_min": 1715,
+      "aerolineas": [
+        "LATAM",
+        "Qantas"
+      ],
+      "self_transfer": false,
+      "tramos": [
+        {
+          "origen": "SCL",
+          "destino": "MEL",
+          "salida": "2027-03-07 01:05",
+          "llegada": "2027-03-08 05:25",
+          "aerolinea": "LATAM",
+          "vuelo": "LA 805"
+        },
+        {
+          "origen": "MEL",
+          "destino": "NRT",
+          "salida": "2027-03-08 09:20",
+          "llegada": "2027-03-08 17:40",
+          "aerolinea": "Qantas",
+          "vuelo": "QF 79"
+        }
+      ],
+      "enlace": "https://www.google.com/travel/flights?hl=es&gl=cl&curr=USD&tfs=CBwQAhoeEgoyMDI3LTAzLTA3agcIARIDU0NMcgcIARIDTlJUGh4SCjIwMjctMDMtMjRqBwgBEgNOUlRyBwgBEgNTQ0xAAUgBcAGYAQE&tfu=EgIIAQ",
+      "nivel": null,
+      "rango_tipico": null
     }
   ]
 }
