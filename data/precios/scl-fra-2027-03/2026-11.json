@@ -774,6 +774,49 @@
         810,
         1300
       ]
+    },
+    {
+      "capturado": "2026-11-20T19:06:19Z",
+      "fuente": "serpapi",
+      "salida": "2027-03-01",
+      "regreso": "2027-03-18",
+      "origen": "SCL",
+      "destino": "FRA",
+      "precio": {
+        "monto": 944.0,
+        "moneda": "USD",
+        "clp": 952298
+      },
+      "escalas": 1,
+      "duracion_min": 1065,
+      "aerolineas": [
+        "Iberia"
+      ],
+      "self_transfer": false,
+      "tramos": [
+        {
+          "origen": "SCL",
+          "destino": "MAD",
+          "salida": "2027-03-01 00:50",
+          "llegada": "2027-03-01 17:30",
+          "aerolinea": "Iberia",
+          "vuelo": "IB 114"
+        },
+        {
+          "origen": "MAD",
+          "destino": "FRA",
+          "salida": "2027-03-01 19:50",
+          "llegada": "2027-03-01 22:35",
+          "aerolinea": "Iberia",
+          "vuelo": "IB 1331"
+        }
+      ],
+      "enlace": "https://www.google.com/travel/flights?hl=es&gl=cl&curr=USD&tfs=CBwQAhoeEgoyMDI3LTAzLTAxagcIARIDU0NMcgcIARIDRlJBGh4SCjIwMjctMDMtMThqBwgBEgNGUkFyBwgBEgNTQ0xAAUgBcAGYAQE&tfu=EgIIAQ",
+      "nivel": "typical",
+      "rango_tipico": [
+        800,
+        1300
+      ]
     }
   ]
 }

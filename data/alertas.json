@@ -56,6 +56,46 @@
         "email",
         "app"
       ]
+    },
+    {
+      "viaje_id": "scl-nrt-2027-03",
+      "tipo": "caida_pct",
+      "fuente": "en_vivo",
+      "precio_usd": 1588.0,
+      "precio_clp": 1601959,
+      "referencia_usd": 1801.0,
+      "referencia_clp": 1816831,
+      "costo_total_clp": 1661959,
+      "salida": "2027-03-07",
+      "regreso": "2027-03-24",
+      "motivo": "Bajó 12 % respecto de la mediana de 7 días (US$1.801,00 → US$1.588,00)",
+      "id": "scl-nrt-2027-03-caida_pct-2026-11-20T19:06:19Z",
+      "fecha": "2026-11-20T19:06:19Z",
+      "canales_enviados": [
+        "telegram",
+        "email",
+        "app"
+      ]
+    },
+    {
+      "viaje_id": "scl-nrt-2027-03",
+      "tipo": "minimo_historico",
+      "fuente": "en_vivo",
+      "precio_usd": 1588.0,
+      "precio_clp": 1601959,
+      "referencia_usd": 1689.0,
+      "referencia_clp": 1703846,
+      "costo_total_clp": 1661959,
+      "salida": "2027-03-07",
+      "regreso": "2027-03-24",
+      "motivo": "Nuevo mínimo histórico: US$1.588,00 (antes US$1.689,00, 78 días de historia)",
+      "id": "scl-nrt-2027-03-minimo_historico-2026-11-20T19:06:19Z",
+      "fecha": "2026-11-20T19:06:19Z",
+      "canales_enviados": [
+        "telegram",
+        "email",
+        "app"
+      ]
     }
   ]
 }

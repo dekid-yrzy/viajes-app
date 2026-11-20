@@ -670,6 +670,62 @@
         660,
         970
       ]
+    },
+    {
+      "capturado": "2026-11-20T19:06:19Z",
+      "fuente": "travelpayouts",
+      "salida": "2027-03-08",
+      "regreso": "2027-03-28",
+      "origen": "SCL",
+      "destino": "MAD",
+      "precio": {
+        "monto": 747,
+        "moneda": "USD",
+        "clp": 753566
+      },
+      "escalas": 0,
+      "duracion_min": 1560,
+      "aerolineas": [
+        "IB"
+      ],
+      "self_transfer": false,
+      "tramos": [],
+      "enlace": "https://www.aviasales.com/search/SCL0803MAD28031?t=IB18044670001804527000000760SCLMAD18062400001806270000000800MADSCL_114f0c202d2cb434f796708dffc08025_61334&search_date=19112026&expected_price_uuid=01a1f633-df48-8040-673b-70ff1f0ae4e6&static_fare_key=TY%7CP0%7CH1%7CL0%7CCH1%7CR0%7CTBC0&itinerary_key=6WpavbrV11kvxf76TnUybw&expected_price_source=share&expected_price_currency=usd&expected_price=747"
+    },
+    {
+      "capturado": "2026-11-20T19:06:19Z",
+      "fuente": "serpapi",
+      "salida": "2027-03-05",
+      "regreso": "2027-03-22",
+      "origen": "SCL",
+      "destino": "MAD",
+      "precio": {
+        "monto": 724.0,
+        "moneda": "USD",
+        "clp": 730364
+      },
+      "escalas": 0,
+      "duracion_min": 760,
+      "aerolineas": [
+        "Iberia"
+      ],
+      "self_transfer": false,
+      "tramos": [
+        {
+          "origen": "SCL",
+          "destino": "MAD",
+          "salida": "2027-03-05 00:50",
+          "llegada": "2027-03-05 17:30",
+          "aerolinea": "Iberia",
+          "vuelo": "IB 114"
+        }
+      ],
+      "enlace": "https://www.google.com/travel/flights?hl=es&gl=cl&curr=USD&tfs=CBwQAhoeEgoyMDI3LTAzLTA1agcIARIDU0NMcgcIARIDTUFEGh4SCjIwMjctMDMtMjJqBwgBEgNNQURyBwgBEgNTQ0xAAUgBcAGYAQE&tfu=EgIIAQ",
+      "nivel": "typical",
+      "rango_tipico": [
+        660,
+        960
+      ]
     }
   ]
 }

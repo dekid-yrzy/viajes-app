@@ -1,6 +1,6 @@
 {
-  "ultima_corrida": "2026-11-19T19:29:11Z",
-  "tipos_cambio": "er-api",
+  "ultima_corrida": "2026-11-20T19:06:19Z",
+  "tipos_cambio": "mindicador",
   "fuentes": {
     "travelpayouts": {
       "estado": "ok",
@@ -15,17 +15,17 @@
       "detalle": ""
     },
     "telegram": {
-      "estado": "sin_alertas",
+      "estado": "ok",
       "detalle": ""
     },
     "email": {
-      "estado": "sin_alertas",
+      "estado": "ok",
       "detalle": ""
     }
   },
   "serpapi_uso": {
     "mes": "2026-11",
-    "usadas": 54
+    "usadas": 57
   },
   "viajes": {
     "scl-fra-2027-03": {
@@ -40,8 +40,8 @@
       "fuente_en_vivo": "serpapi"
     },
     "scl-mad-2027-03": {
-      "ofertas": 0,
-      "fechas_con_precio": 0,
+      "ofertas": 1,
+      "fechas_con_precio": 1,
       "fechas_posibles": 31,
       "referencia": {
         "salida": "2027-03-05",
@@ -51,8 +51,8 @@
       "fuente_en_vivo": "serpapi"
     },
     "scl-nrt-2027-03": {
-      "ofertas": 0,
-      "fechas_con_precio": 0,
+      "ofertas": 2,
+      "fechas_con_precio": 2,
       "fechas_posibles": 31,
       "referencia": {
         "salida": "2027-03-07",
@@ -62,7 +62,7 @@
       "fuente_en_vivo": "serpapi"
     }
   },
-  "alertas_nuevas": 0,
+  "alertas_nuevas": 2,
   "errores": [
     {
       "fecha": "2026-11-11T12:04:21Z",
