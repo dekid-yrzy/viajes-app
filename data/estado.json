@@ -1,5 +1,5 @@
 {
-  "ultima_corrida": "2026-11-20T19:06:19Z",
+  "ultima_corrida": "2026-11-21T17:57:54Z",
   "tipos_cambio": "mindicador",
   "fuentes": {
     "travelpayouts": {
@@ -15,17 +15,17 @@
       "detalle": ""
     },
     "telegram": {
-      "estado": "ok",
+      "estado": "sin_alertas",
       "detalle": ""
     },
     "email": {
-      "estado": "ok",
+      "estado": "sin_alertas",
       "detalle": ""
     }
   },
   "serpapi_uso": {
     "mes": "2026-11",
-    "usadas": 57
+    "usadas": 60
   },
   "viajes": {
     "scl-fra-2027-03": {
@@ -62,7 +62,7 @@
       "fuente_en_vivo": "serpapi"
     }
   },
-  "alertas_nuevas": 2,
+  "alertas_nuevas": 0,
   "errores": [
     {
       "fecha": "2026-11-11T12:04:21Z",
