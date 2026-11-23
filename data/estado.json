@@ -1,5 +1,5 @@
 {
-  "ultima_corrida": "2026-11-22T18:31:00Z",
+  "ultima_corrida": "2026-11-23T22:39:15Z",
   "tipos_cambio": "mindicador",
   "fuentes": {
     "travelpayouts": {
@@ -25,7 +25,7 @@
   },
   "serpapi_uso": {
     "mes": "2026-11",
-    "usadas": 63
+    "usadas": 66
   },
   "viajes": {
     "scl-fra-2027-03": {
