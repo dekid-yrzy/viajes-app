@@ -1189,6 +1189,71 @@
         1450,
         2200
       ]
+    },
+    {
+      "capturado": "2026-11-24T21:11:39Z",
+      "fuente": "travelpayouts",
+      "salida": "2027-03-10",
+      "regreso": "2027-03-24",
+      "origen": "SCL",
+      "destino": "NRT",
+      "precio": {
+        "monto": 1742,
+        "moneda": "USD",
+        "clp": 1783355
+      },
+      "escalas": 1,
+      "duracion_min": 3395,
+      "aerolineas": [
+        "LA"
+      ],
+      "self_transfer": false,
+      "tramos": [],
+      "enlace": "https://www.aviasales.com/search/SCL1003NRT24031?t=LA18046407001804786800001715SCLMELNRT18059160001805973600001680NRTMELSCL_bd844db4a2523cdd3a6110fb1f80bcf7_143134&search_date=20112026&expected_price_uuid=01a1f67c-eb75-8040-22bb-66de0bbb7908&static_fare_key=TY%7CP1%7CH1%7CL1_1_23%7CCH0%7CR0%7CTBC1&itinerary_key=no7zOr9sbIvrl09_PxGIUA&origin_airports=1&destination_airports=0&expected_price_source=share&expected_price_currency=usd&expected_price=1742"
+    },
+    {
+      "capturado": "2026-11-24T21:11:39Z",
+      "fuente": "serpapi",
+      "salida": "2027-03-07",
+      "regreso": "2027-03-24",
+      "origen": "SCL",
+      "destino": "NRT",
+      "precio": {
+        "monto": 1741.0,
+        "moneda": "USD",
+        "clp": 1782331
+      },
+      "escalas": 1,
+      "duracion_min": 1715,
+      "aerolineas": [
+        "LATAM",
+        "Qantas"
+      ],
+      "self_transfer": false,
+      "tramos": [
+        {
+          "origen": "SCL",
+          "destino": "MEL",
+          "salida": "2027-03-07 01:05",
+          "llegada": "2027-03-08 05:25",
+          "aerolinea": "LATAM",
+          "vuelo": "LA 805"
+        },
+        {
+          "origen": "MEL",
+          "destino": "NRT",
+          "salida": "2027-03-08 09:20",
+          "llegada": "2027-03-08 17:40",
+          "aerolinea": "Qantas",
+          "vuelo": "QF 79"
+        }
+      ],
+      "enlace": "https://www.google.com/travel/flights?hl=es&gl=cl&curr=USD&tfs=CBwQAhoeEgoyMDI3LTAzLTA3agcIARIDU0NMcgcIARIDTlJUGh4SCjIwMjctMDMtMjRqBwgBEgNOUlRyBwgBEgNTQ0xAAUgBcAGYAQE&tfu=EgIIAQ",
+      "nivel": "typical",
+      "rango_tipico": [
+        1450,
+        2150
+      ]
     }
   ]
 }
