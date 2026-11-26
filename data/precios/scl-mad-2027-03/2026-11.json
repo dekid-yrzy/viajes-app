@@ -1006,6 +1006,70 @@
         640,
         950
       ]
+    },
+    {
+      "capturado": "2026-11-26T20:11:35Z",
+      "fuente": "travelpayouts",
+      "salida": "2027-03-08",
+      "regreso": "2027-03-28",
+      "origen": "SCL",
+      "destino": "MAD",
+      "precio": {
+        "monto": 732,
+        "moneda": "USD",
+        "clp": 756244
+      },
+      "escalas": 0,
+      "duracion_min": 1560,
+      "aerolineas": [
+        "IB"
+      ],
+      "self_transfer": false,
+      "tramos": [],
+      "enlace": "https://www.aviasales.com/search/SCL0803MAD28031?t=IB18044670001804527000000760SCLMAD18062400001806270000000800MADSCL_114f0c202d2cb434f796708dffc08025_59693&search_date=22112026&expected_price_uuid=01a20528-f24c-8040-6e8e-f55dc11a86b2&static_fare_key=TY%7CP1%7CH1%7CL0%7CCH1%7CR0%7CTBC0&itinerary_key=6WpavbrV11kvxf76TnUybw&expected_price_source=share&expected_price_currency=usd&expected_price=732"
+    },
+    {
+      "capturado": "2026-11-26T20:11:35Z",
+      "fuente": "serpapi",
+      "salida": "2027-03-05",
+      "regreso": "2027-03-22",
+      "origen": "SCL",
+      "destino": "MAD",
+      "precio": {
+        "monto": 627.0,
+        "moneda": "USD",
+        "clp": 647766
+      },
+      "escalas": 1,
+      "duracion_min": 1030,
+      "aerolineas": [
+        "Avianca"
+      ],
+      "self_transfer": false,
+      "tramos": [
+        {
+          "origen": "SCL",
+          "destino": "BOG",
+          "salida": "2027-03-05 16:15",
+          "llegada": "2027-03-05 20:20",
+          "aerolinea": "Avianca",
+          "vuelo": "AV 116"
+        },
+        {
+          "origen": "BOG",
+          "destino": "MAD",
+          "salida": "2027-03-05 21:50",
+          "llegada": "2027-03-06 13:25",
+          "aerolinea": "Avianca",
+          "vuelo": "AV 10"
+        }
+      ],
+      "enlace": "https://www.google.com/travel/flights?hl=es&gl=cl&curr=USD&tfs=CBwQAhoeEgoyMDI3LTAzLTA1agcIARIDU0NMcgcIARIDTUFEGh4SCjIwMjctMDMtMjJqBwgBEgNNQURyBwgBEgNTQ0xAAUgBcAGYAQE&tfu=EgIIAQ",
+      "nivel": "low",
+      "rango_tipico": [
+        640,
+        950
+      ]
     }
   ]
 }

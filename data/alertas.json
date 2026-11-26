@@ -96,6 +96,26 @@
         "email",
         "app"
       ]
+    },
+    {
+      "viaje_id": "scl-mad-2027-03",
+      "tipo": "caida_pct",
+      "fuente": "en_vivo",
+      "precio_usd": 627.0,
+      "precio_clp": 647766,
+      "referencia_usd": 731.0,
+      "referencia_clp": 755211,
+      "costo_total_clp": 707766,
+      "salida": "2027-03-05",
+      "regreso": "2027-03-22",
+      "motivo": "Bajó 14 % respecto de la mediana de 7 días (US$731,00 → US$627,00)",
+      "id": "scl-mad-2027-03-caida_pct-2026-11-26T20:11:35Z",
+      "fecha": "2026-11-26T20:11:35Z",
+      "canales_enviados": [
+        "telegram",
+        "email",
+        "app"
+      ]
     }
   ]
 }
