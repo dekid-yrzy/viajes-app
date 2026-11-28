@@ -1422,6 +1422,58 @@
       "enlace": "https://www.google.com/travel/flights?hl=es&gl=cl&curr=USD&tfs=CBwQAhoeEgoyMDI3LTAzLTA3agcIARIDU0NMcgcIARIDTlJUGh4SCjIwMjctMDMtMjRqBwgBEgNOUlRyBwgBEgNTQ0xAAUgBcAGYAQE&tfu=EgIIAQ",
       "nivel": null,
       "rango_tipico": null
+    },
+    {
+      "capturado": "2026-11-28T18:57:36Z",
+      "fuente": "serpapi",
+      "salida": "2027-03-07",
+      "regreso": "2027-03-24",
+      "origen": "SCL",
+      "destino": "NRT",
+      "precio": {
+        "monto": 1900.0,
+        "moneda": "USD",
+        "clp": 1972029
+      },
+      "escalas": 2,
+      "duracion_min": 2105,
+      "aerolineas": [
+        "Iberia",
+        "Qatar Airways"
+      ],
+      "self_transfer": false,
+      "tramos": [
+        {
+          "origen": "SCL",
+          "destino": "MAD",
+          "salida": "2027-03-07 12:50",
+          "llegada": "2027-03-08 05:25",
+          "aerolinea": "Iberia",
+          "vuelo": "IB 118"
+        },
+        {
+          "origen": "MAD",
+          "destino": "DOH",
+          "salida": "2027-03-08 08:15",
+          "llegada": "2027-03-08 16:40",
+          "aerolinea": "Qatar Airways",
+          "vuelo": "QR 148"
+        },
+        {
+          "origen": "DOH",
+          "destino": "NRT",
+          "salida": "2027-03-08 20:15",
+          "llegada": "2027-03-09 11:55",
+          "aerolinea": "Qatar Airways",
+          "vuelo": "QR 808"
+        }
+      ],
+      "enlace": "https://www.google.com/travel/flights?hl=es&gl=cl&curr=USD&tfs=CBwQAhoeEgoyMDI3LTAzLTA3agcIARIDU0NMcgcIARIDTlJUGh4SCjIwMjctMDMtMjRqBwgBEgNOUlRyBwgBEgNTQ0xAAUgBcAGYAQE&tfu=EgIIAQ",
+      "nivel": "typical",
+      "rango_tipico": [
+        1450,
+        2150
+      ]
     }
   ]
 }
